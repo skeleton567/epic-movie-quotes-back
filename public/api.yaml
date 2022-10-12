@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
-  title: Coronatime API
-  description: Here goes description
+  title: Movie Quotes Updated API
+  description: Api for Movie Quotes Updated
   version: 0.1.9
 
 servers:
@@ -11,15 +11,61 @@ servers:
     description: production server
 
 paths:
-  /users:
-    get:
-      summary: Returns a list of users.
+  /register:
+    post:
+      summary: Register user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  required: true
+                  minLength: 3
+                email:
+                  type: string
+                  required: true
+                password:
+                  type: string
+                  required: true
+                  minLength: 8
+            example:
+              name: gela
+              email: gela@redberry.ge
+              password: fghfghfghfgh
       responses:
-        '200': 
-          description: A JSON array of user names
+        "200":
+          description: Data created succesfully
           content:
             application/json:
-              schema: 
-                type: array
-                items: 
-                  type: strin
+              schema:
+  /login:
+    post:
+      summary: Login user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  required: true
+                  minLength: 3
+                password:
+                  type: string
+                  required: true
+                  minLength: 8
+            example:
+              name: gela
+              password: fghfghfghfgh
+      responses:
+        "200":
+          description: Logged in succesfully
+          content:
+            application/json:
+              schema:

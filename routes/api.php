@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PasswordResetController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,4 +26,10 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('logout', 'logout');
     Route::post('refresh-token', 'refresh');
     Route::post('authorized-user', 'user');
+});
+
+Route::controller(PasswordResetController::class)->group(function () {
+    Route::post('/forgot-password', 'forgotPassword')->name('password.email');
+    Route::get('/reset-password/{token}', 'passwordReset')->name('password.reset');
+    Route::post('/reset-password', 'passwordUpdate')->name('password.update');
 });

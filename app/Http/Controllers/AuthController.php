@@ -6,15 +6,19 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\Events\Verified;
 
 class AuthController extends Controller
 {
     //
     public function register(RegisterRequest $request): JsonResponse
     {
-        User::create($request->validated());
-
+        $user = User::create($request->validated());
+        event(new Registered($user));
         return response()->json('User successfuly registered!', 200);
     }
 
@@ -35,6 +39,21 @@ class AuthController extends Controller
         return $this->respondWithToken($token);
     }
 
+    public function verify(Request $request): RedirectResponse
+    {
+        $user = User::find($request->route('id'));
+
+        if (!hash_equals((string) $request->route('hash'), sha1($user->getEmailForVerification()))) {
+            throw new AuthorizationException();
+        }
+
+        if ($user->markEmailAsVerified()) {
+            event(new Verified($user));
+        }
+
+        return redirect(env('BASE_URL') . '/success');
+    }
+
     public function user(): JsonResponse
     {
         return response()->json(auth()->user(), 200);
@@ -50,14 +69,5 @@ class AuthController extends Controller
     public function refresh(): JsonResponse
     {
         return $this->respondWithToken(auth()->refresh());
-    }
-
-    protected function respondWithToken(string $token): JsonResponse
-    {
-        return response()->json([
-            'access_token' => $token,
-            'token_type'   => 'bearer',
-            'expires_in'   => auth()->factory()->getTTL() * 60,
-        ]);
     }
 }

@@ -20,7 +20,8 @@ class VerifyEmail extends VerifyEmailBase
             ->subject(Lang::get(__('email.subject_verify')))
             ->view(
                 'email.verify-message',
-                ['url' => $url]
+                ['url' => $url,
+                'name' => $notifiable->name]
             );
     }
 }

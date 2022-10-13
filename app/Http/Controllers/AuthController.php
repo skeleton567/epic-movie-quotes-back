@@ -36,7 +36,13 @@ class AuthController extends Controller
             return response()->json(['error' => 'Name or password is not correct'], 404);
         }
 
-        return $this->respondWithToken($token);
+        if ($request->has('remember')) {
+            $ttl = '1051200';
+        } else {
+            $ttl = auth()->factory()->getTTL() * 60;
+        }
+
+        return $this->respondWithToken($token, $ttl);
     }
 
     public function verify(Request $request): RedirectResponse
@@ -68,6 +74,15 @@ class AuthController extends Controller
 
     public function refresh(): JsonResponse
     {
-        return $this->respondWithToken(auth()->refresh());
+        $ttl = auth()->factory()->getTTL() * 60;
+        return $this->respondWithToken(auth()->refresh(), $ttl);
+    }
+    protected function respondWithToken(string $token, string  $ttl): JsonResponse
+    {
+        return response()->json([
+            'access_token' => $token,
+            'token_type'   => 'bearer',
+            'expires_in'   => $ttl,
+        ]);
     }
 }

@@ -20,12 +20,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::middleware(['auth:api'])->group(function () {
+    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+});
+
 Route::controller(AuthController::class)->group(function () {
     Route::post('register', 'register')->name('register');
     Route::post('login', 'login')->name('login');
-    Route::post('logout', 'logout');
-    Route::post('refresh-token', 'refresh');
-    Route::post('authorized-user', 'user');
+    Route::post('refresh-token', 'refresh')->name('refresh.token');
+    Route::post('authorized-user', 'user')->name('auth.user');
+    Route::post('google-login', 'googleLogin')->name('google.login');
+    ;
 });
 
 Route::controller(PasswordResetController::class)->group(function () {

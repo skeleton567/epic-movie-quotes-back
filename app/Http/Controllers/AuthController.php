@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Auth\GoogleLoginRequest;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
@@ -44,6 +45,21 @@ class AuthController extends Controller
 
         return $this->respondWithToken($token, $ttl);
     }
+
+    public function googleLogin(GoogleLoginRequest $request): JsonResponse
+    {
+        if (User::where('email', $request->email)->exists()) {
+            $user = User::where('email', $request->email)-> first();
+        } else {
+            $user = User::create($request->validated());
+            $user->markEmailAsVerified();
+        }
+        $token = auth()->login($user);
+        $ttl = auth()->factory()->getTTL() * 60;
+        return $this->respondWithToken($token, $ttl);
+    }
+
+
 
     public function verify(Request $request): RedirectResponse
     {

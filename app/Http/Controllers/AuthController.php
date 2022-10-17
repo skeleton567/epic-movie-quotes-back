@@ -20,7 +20,8 @@ class AuthController extends Controller
     {
         $user = User::create($request->validated());
         event(new Registered($user));
-        return response()->json('User successfuly registered!', 200);
+        $token = auth()->login($user);
+        return $this->respondWithToken($token);
     }
 
     public function login(LoginRequest $request): JsonResponse
@@ -49,14 +50,13 @@ class AuthController extends Controller
     public function googleLogin(GoogleLoginRequest $request): JsonResponse
     {
         if (User::where('email', $request->email)->exists()) {
-            $user = User::where('email', $request->email)-> first();
+            $user = User::firstWhere('email', $request->email);
         } else {
             $user = User::create($request->validated());
             $user->markEmailAsVerified();
         }
         $token = auth()->login($user);
-        $ttl = auth()->factory()->getTTL() * 60;
-        return $this->respondWithToken($token, $ttl);
+        return $this->respondWithToken($token);
     }
 
 
@@ -90,11 +90,13 @@ class AuthController extends Controller
 
     public function refresh(): JsonResponse
     {
-        $ttl = auth()->factory()->getTTL() * 60;
-        return $this->respondWithToken(auth()->refresh(), $ttl);
+        return $this->respondWithToken(auth()->refresh());
     }
-    protected function respondWithToken(string $token, string  $ttl): JsonResponse
+    protected function respondWithToken(string $token, string  $ttl = null): JsonResponse
     {
+        if (!$ttl) {
+            $ttl = auth()->factory()->getTTL() * 60;
+        }
         return response()->json([
             'access_token' => $token,
             'token_type'   => 'bearer',

@@ -59,8 +59,6 @@ class AuthController extends Controller
         return $this->respondWithToken($token);
     }
 
-
-
     public function verify(Request $request): RedirectResponse
     {
         $user = User::find($request->route('id'));

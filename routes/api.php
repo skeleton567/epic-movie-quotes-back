@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\QuoteController;
 use Illuminate\Http\Request;
@@ -26,7 +28,9 @@ Route::middleware(['auth:api'])->group(function () {
         Route::post('logout', 'logout')->name('logout');
         Route::post('authorized-user', 'user')->name('auth.user');
     });
-
+    Route::post('likes', [LikeController::class, 'store'])->name('like.store');
+    Route::delete('likes', [LikeController::class, 'destroy'])->name('like.destroy');
+    Route::post('comment', [CommentController::class, 'store'])->name('comment.store');
     Route::get('quote', [QuoteController::class, 'getQuote'])->name('load.quote');
 });
 

@@ -19,7 +19,6 @@ class LikeFactory extends Factory
     {
         return [
             //
-            'like' => 'liked',
             'quote_id' => Quote::factory(),
             'user_id' => 1
         ];

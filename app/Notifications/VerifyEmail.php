@@ -24,4 +24,8 @@ class VerifyEmail extends VerifyEmailBase
                 'name' => $notifiable->name]
             );
     }
+    public static function createUrlUsing($callback)
+    {
+        static::$createUrlCallback = $callback;
+    }
 }

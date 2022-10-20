@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class QuoteResource extends JsonResource
+class QuotePostResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,7 +17,10 @@ class QuoteResource extends JsonResource
         return [
             'id' => $this->id,
             'quote' => $this->quote,
-            'movie' => MovieResource::make($this->movie)->title,
+            'movie' => MovieResource::make($this->movie),
+            'user' => UserResource::make($this->user),
+            'like' => LikeResource::collection($this->likes),
+            'comment' => CommentResource::collection($this->comments)
         ];
     }
 }

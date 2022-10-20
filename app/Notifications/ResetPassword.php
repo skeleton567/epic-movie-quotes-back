@@ -22,4 +22,8 @@ class ResetPassword extends ResetPasswordBase
             'name' => $notifiable->name]
         );
     }
+    public static function createUrlUsing($callback)
+    {
+        static::$createUrlCallback = $callback;
+    }
 }

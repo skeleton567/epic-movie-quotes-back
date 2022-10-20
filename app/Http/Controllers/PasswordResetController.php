@@ -24,12 +24,6 @@ class PasswordResetController extends Controller
                     : response()->json(['error' => __($status)], 404);
     }
 
-    public function passwordReset($token): RedirectResponse
-    {
-        $email = request('email');
-        return redirect(env('BASE_URL') . "/create-password?token=$token&email=$email");
-    }
-
     public function passwordUpdate(UpdatePasswordRequest $request): JsonResponse
     {
         $status = Password::reset(

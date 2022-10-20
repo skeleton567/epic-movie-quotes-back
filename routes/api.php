@@ -31,7 +31,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('likes', [LikeController::class, 'store'])->name('like.store');
     Route::delete('likes', [LikeController::class, 'destroy'])->name('like.destroy');
     Route::post('comment', [CommentController::class, 'store'])->name('comment.store');
-    Route::get('quote', [QuoteController::class, 'getQuote'])->name('load.quote');
+    Route::get('post', [QuoteController::class, 'getPost'])->name('view.post');
 });
 
 Route::controller(AuthController::class)->group(function () {
@@ -39,11 +39,11 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login')->name('login');
     Route::post('refresh-token', 'refresh')->name('refresh.token');
     Route::post('google-login', 'googleLogin')->name('google.login');
-    ;
+    Route::get('/email/verify/{id}/{hash}', 'verify')->name('verification.verify');
 });
 
+Route::get('quote', [QuoteController::class, 'index'])->name('view.quote');
 Route::controller(PasswordResetController::class)->group(function () {
     Route::post('/forgot-password', 'forgotPassword')->name('password.email');
-    Route::get('/reset-password/{token}', 'passwordReset')->name('password.reset');
     Route::post('/reset-password', 'passwordUpdate')->name('password.update');
 });

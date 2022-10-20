@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Likes\DestroyRequest;
 use App\Http\Requests\Likes\StoreRequest;
+use App\Http\Resources\LikeResource;
 use App\Models\Like;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -14,9 +15,9 @@ class LikeController extends Controller
 
     public function store(StoreRequest $request): JsonResponse
     {
-        Like::create($request->validated());
+        $like = Like::create($request->validated());
 
-        return response()->json(['message' => 'Successfully liked'], 201);
+        return response()->json(LikeResource::make($like), 201);
     }
     public function destroy(DestroyRequest $request): JsonResponse
     {

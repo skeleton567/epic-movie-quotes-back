@@ -59,7 +59,7 @@ class AuthController extends Controller
         return $this->respondWithToken($token);
     }
 
-    public function verify(Request $request): RedirectResponse
+    public function verify(Request $request): JsonResponse
     {
         $user = User::find($request->route('id'));
 
@@ -71,7 +71,7 @@ class AuthController extends Controller
             event(new Verified($user));
         }
 
-        return redirect(env('BASE_URL') . '/success');
+        return response()->json(['message' => 'Successfully verified'], 200);
     }
 
     public function user(): JsonResponse

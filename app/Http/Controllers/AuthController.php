@@ -53,6 +53,7 @@ class AuthController extends Controller
             $user = User::firstWhere('email', $request->email);
         } else {
             $user = User::create($request->validated());
+            $user->google_auth = true;
             $user->markEmailAsVerified();
         }
         $token = auth()->login($user);

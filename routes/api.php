@@ -5,6 +5,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\QuoteController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -32,6 +33,13 @@ Route::middleware(['auth:api'])->group(function () {
     Route::delete('likes', [LikeController::class, 'destroy'])->name('like.destroy');
     Route::post('comment', [CommentController::class, 'store'])->name('comment.store');
     Route::get('post', [QuoteController::class, 'getPost'])->name('view.post');
+
+    Route::controller(UserController::class)->group(function () {
+        Route::patch('update-name', 'updateName')->name('name.update');
+        Route::post('add-email', 'addEmail')->name('add.email');
+        Route::get('secondary-email', 'getSecondaryEmail')->name('secondary.email');
+        Route::post('make-primary', 'makePrimary')->name('make.primary');
+    });
 });
 
 Route::controller(AuthController::class)->group(function () {

@@ -72,6 +72,10 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
     {
         $this->attributes['password'] = bcrypt($password);
     }
+    public function setNameAttribute($name)
+    {
+        $this->attributes['name'] = ucwords($name);
+    }
     public function sendEmailVerificationNotification()
     {
         $this->notify(new VerifyEmail());
@@ -97,5 +101,9 @@ class User extends Authenticatable implements MustVerifyEmail, JWTSubject
     public function likes(): HasMany
     {
         return $this->hasMany(Like::class);
+    }
+    public function secondaryEmails(): HasMany
+    {
+        return $this->hasMany(SecondaryEmail::class);
     }
 }

@@ -60,6 +60,7 @@
                 color: #DDCCAA;
                 margin-top: 24px;
                 margin-bottom: 30px;
+                word-break: break-all;
             }
             .problem {
                 margin-bottom: 28px;

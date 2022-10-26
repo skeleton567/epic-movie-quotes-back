@@ -36,9 +36,12 @@ Route::middleware(['auth:api'])->group(function () {
 
     Route::controller(UserController::class)->group(function () {
         Route::patch('update-name', 'updateName')->name('name.update');
+        Route::patch('update-password', 'updatePassword')->name('password.update');
         Route::post('add-email', 'addEmail')->name('add.email');
         Route::get('secondary-email', 'getSecondaryEmail')->name('secondary.email');
         Route::post('make-primary', 'makePrimary')->name('make.primary');
+        Route::delete('destroy-email', 'destroyEmail')->name('destroy.email');
+        Route::post('profile-image', 'storeProfileImage')->name('profile.image');
     });
 });
 
@@ -48,6 +51,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('refresh-token', 'refresh')->name('refresh.token');
     Route::post('google-login', 'googleLogin')->name('google.login');
     Route::get('/email/verify/{id}/{hash}', 'verify')->name('verification.verify');
+    Route::get('/email/verify/{id}/{hash}', 'secondaryVerify')->name('secondary.verify');
 });
 
 Route::get('quote', [QuoteController::class, 'index'])->name('view.quote');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Auth\GoogleLoginRequest;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Models\SecondaryEmail;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -32,7 +33,7 @@ class AuthController extends Controller
             $credentials['email'] = $credentials['name'];
             unset($credentials['name']);
         }
-        $token = auth()->attempt($credentials);
+        $token = auth()->attempt($credentials, (bool)$request->has('remember'));
 
         if (!$token) {
             return response()->json(['error' => 'Name or password is not correct'], 404);
@@ -63,6 +64,20 @@ class AuthController extends Controller
     public function verify(Request $request): JsonResponse
     {
         $user = User::find($request->route('id'));
+
+        if (!hash_equals((string) $request->route('hash'), sha1($user->getEmailForVerification()))) {
+            throw new AuthorizationException();
+        }
+
+        if ($user->markEmailAsVerified()) {
+            event(new Verified($user));
+        }
+
+        return response()->json(['message' => 'Successfully verified'], 200);
+    }
+    public function secondaryVerify(Request $request): JsonResponse
+    {
+        $user = SecondaryEmail::find($request->route('id'));
 
         if (!hash_equals((string) $request->route('hash'), sha1($user->getEmailForVerification()))) {
             throw new AuthorizationException();

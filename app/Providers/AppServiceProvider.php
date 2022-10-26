@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Notifications\VerifyEmail;
+use App\Notifications\VerifySecondaryEmail;
 use App\Notifications\ResetPassword;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Config;
@@ -35,6 +36,21 @@ class AppServiceProvider extends ServiceProvider
 
             $verifyUrl = URL::temporarySignedRoute(
                 'verification.verify',
+                Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
+                [
+                    'id' => $notifiable->getKey(),
+                    'hash' => sha1($notifiable->getEmailForVerification()),
+                ]
+            );
+
+            return $frontendUrl . '?verify_url=' . urlencode($verifyUrl);
+        });
+
+        VerifySecondaryEmail::createUrlUsing(function ($notifiable) {
+            $frontendUrl = env('BASE_URL'). '/success';
+
+            $verifyUrl = URL::temporarySignedRoute(
+                'secondary.verify',
                 Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
                 [
                     'id' => $notifiable->getKey(),

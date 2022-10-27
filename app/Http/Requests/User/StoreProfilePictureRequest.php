@@ -14,7 +14,8 @@ class StoreProfilePictureRequest extends FormRequest
     public function rules()
     {
         return [
-            'image' => 'required'
+            'image' => 'required',
+            'id' => 'required'
         ];
     }
 }

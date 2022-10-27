@@ -70,10 +70,10 @@ class UserController extends Controller
     }
     public function storeProfileImage(StoreProfilePictureRequest $request): JsonResponse
     {
-        $user = User::find(1);
+        $user = User::find($request->id);
         $path = $request->file('image')->store('images');
         $user->profile_picture = $path;
         $user->save();
-        return response()->json($path, 204);
+        return response()->json(['Profile picture set successfully'], 204);
     }
 }

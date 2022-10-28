@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\UserController;
@@ -33,6 +34,8 @@ Route::middleware(['auth:api'])->group(function () {
     Route::delete('likes', [LikeController::class, 'destroy'])->name('like.destroy');
     Route::post('comment', [CommentController::class, 'store'])->name('comment.store');
     Route::get('post', [QuoteController::class, 'getPost'])->name('view.post');
+    Route::get('notifications', [NotificationController::class, 'index'])->name('notiification.index');
+    Route::patch('notifications/update', [NotificationController::class, 'update'])->name('notiification.update');
 
     Route::controller(UserController::class)->group(function () {
         Route::patch('update-name', 'updateName')->name('name.update');

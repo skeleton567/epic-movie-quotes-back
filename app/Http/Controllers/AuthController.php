@@ -33,19 +33,19 @@ class AuthController extends Controller
             $credentials['email'] = $credentials['name'];
             unset($credentials['name']);
         }
-        $token = auth()->attempt($credentials, (bool)$request->has('remember'));
+        if ($request->has('remember')) {
+            $time = 6000;
+            $token = auth()->setTTL($time)->attempt($credentials);
+        } else {
+            $time = 60;
+            $token = auth()->attempt($credentials);
+        }
 
         if (!$token) {
             return response()->json(['error' => 'Name or password is not correct'], 404);
         }
 
-        if ($request->has('remember')) {
-            $ttl = '1051200';
-        } else {
-            $ttl = auth()->factory()->getTTL() * 60;
-        }
-
-        return $this->respondWithToken($token, $ttl);
+        return $this->respondWithToken($token, $time);
     }
 
     public function googleLogin(GoogleLoginRequest $request): JsonResponse
@@ -106,15 +106,12 @@ class AuthController extends Controller
     {
         return $this->respondWithToken(auth()->refresh());
     }
-    protected function respondWithToken(string $token, string  $ttl = null): JsonResponse
+    protected function respondWithToken(string $token, int  $time = 60): JsonResponse
     {
-        if (!$ttl) {
-            $ttl = auth()->factory()->getTTL() * 60;
-        }
         return response()->json([
             'access_token' => $token,
             'token_type'   => 'bearer',
-            'expires_in'   => $ttl,
+            'expires_in'   => auth()->factory()->getTTL() * $time,
         ]);
     }
 }

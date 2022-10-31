@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Translatable\HasTranslations;
 
@@ -14,7 +15,7 @@ class Movie extends Model
     use HasTranslations;
 
     protected $guarded =['id'];
-    public $translatable = ['title'];
+    public $translatable = ['title', 'director', 'description'];
 
     public function quotes(): HasMany
     {
@@ -29,5 +30,9 @@ class Movie extends Model
     public function getTitleAttribute($title)
     {
         return ucwords($title);
+    }
+    public function categories(): BelongsToMany
+    {
+        return  $this->belongsToMany(Category::class);
     }
 }

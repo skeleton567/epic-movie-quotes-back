@@ -40,9 +40,9 @@ class MovieController extends Controller
         $movie->save();
         return response()->json(['movie created successfully'], 201);
     }
-    public function show(ShowRequest $request): JsonResponse
+    public function show(): JsonResponse
     {
-        $movie = MovieResource::collection(Movie::where('user_id', $request->user_id)->get());
+        $movie = MovieResource::collection(auth()->user()->movies);
 
         return response()->json($movie, 200);
     }

@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\MovieController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\QuoteController;
@@ -33,7 +35,10 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('likes', [LikeController::class, 'store'])->name('like.store');
     Route::delete('likes', [LikeController::class, 'destroy'])->name('like.destroy');
     Route::post('comment', [CommentController::class, 'store'])->name('comment.store');
+    Route::post('movie', [MovieController::class, 'store'])->name('movie.store');
+    Route::get('movies', [MovieController::class, 'show'])->name('movie.show');
     Route::get('post', [QuoteController::class, 'getPost'])->name('view.post');
+    Route::get('categories', [CategoryController::class, 'index'])->name('view.category');
     Route::get('notifications', [NotificationController::class, 'index'])->name('notiification.index');
     Route::patch('notifications/update', [NotificationController::class, 'update'])->name('notiification.update');
 

@@ -18,14 +18,13 @@ class StoreRequest extends FormRequest
             'title_en' => 'required',
             'title_ka' => 'required',
             'user_id' => 'required',
-
             'director_en' => 'required',
             'director_ka' => 'required',
             'release_year' => 'required',
             'budget' => 'required',
             'description_ka' => 'required',
             'description_en' => 'required',
-            'image' => 'image'
+            'image' => 'required|image'
         ];
     }
 }

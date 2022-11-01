@@ -32,12 +32,17 @@ Route::middleware(['auth:api'])->group(function () {
         Route::post('logout', 'logout')->name('logout');
         Route::post('authorized-user', 'user')->name('auth.user');
     });
+    Route::controller(MovieController::class)->group(function () {
+        Route::post('movie', 'store')->name('movie.store');
+        Route::get('movies', 'show')->name('movie.show');
+        Route::get('movies/{movie}', 'selectMovie')->name('movie.select');
+    });
     Route::post('likes', [LikeController::class, 'store'])->name('like.store');
     Route::delete('likes', [LikeController::class, 'destroy'])->name('like.destroy');
     Route::post('comment', [CommentController::class, 'store'])->name('comment.store');
-    Route::post('movie', [MovieController::class, 'store'])->name('movie.store');
-    Route::get('movies', [MovieController::class, 'show'])->name('movie.show');
+
     Route::get('post', [QuoteController::class, 'getPost'])->name('view.post');
+    Route::post('quote', [QuoteController::class, 'store'])->name('store.quote');
     Route::get('categories', [CategoryController::class, 'index'])->name('view.category');
     Route::get('notifications', [NotificationController::class, 'index'])->name('notiification.index');
     Route::patch('notifications/update', [NotificationController::class, 'update'])->name('notiification.update');

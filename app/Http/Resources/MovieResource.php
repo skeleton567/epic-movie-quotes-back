@@ -22,7 +22,8 @@ class MovieResource extends JsonResource
             'year' => $this->release_year,
             'budget' => $this->budget,
             'image' => $this->image,
-            'categories' => CategoryResource::collection($this->categories)
+            'categories' => CategoryResource::collection($this->categories),
+            'quote' => QuoteMovieResource::collection($this->quotes)
         ];
     }
 }

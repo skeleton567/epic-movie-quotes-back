@@ -18,6 +18,7 @@ class QuotePostResource extends JsonResource
             'id' => $this->id,
             'quote' => $this->quote,
             'movie' => MovieResource::make($this->movie),
+            'image' => $this->image,
             'user' => UserResource::make($this->user),
             'like' => LikeResource::collection($this->likes),
             'comment' => CommentResource::collection($this->comments)

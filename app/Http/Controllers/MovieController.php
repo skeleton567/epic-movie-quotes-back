@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Movie\ShowRequest;
 use App\Http\Requests\Movie\StoreRequest;
 use App\Http\Resources\MovieResource;
 use App\Models\Movie;
+use App\Models\Quote;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -18,7 +18,7 @@ class MovieController extends Controller
             'user_id' => $request->validated()['user_id'],
             'release_year' => $request->validated()['release_year'],
             'budget' => $request->validated()['budget'],
-            'image' => $request->file('image')->store('images')
+            'image' =>  $request->file('image')->store('images')
         ]);
 
         $movie->setTranslations('title', [
@@ -45,5 +45,9 @@ class MovieController extends Controller
         $movie = MovieResource::collection(auth()->user()->movies);
 
         return response()->json($movie, 200);
+    }
+    public function selectMovie(Movie $movie): JsonResponse
+    {
+        return response()->json(MovieResource::make($movie), 200);
     }
 }

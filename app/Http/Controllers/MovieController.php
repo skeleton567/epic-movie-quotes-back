@@ -46,6 +46,12 @@ class MovieController extends Controller
 
         return response()->json($movie, 200);
     }
+    public function index(): JsonResponse
+    {
+        $movie = MovieResource::collection(Movie::all());
+
+        return response()->json($movie, 200);
+    }
     public function selectMovie(Movie $movie): JsonResponse
     {
         return response()->json(MovieResource::make($movie), 200);

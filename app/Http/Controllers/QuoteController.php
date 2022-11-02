@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Quote\UpdateRequest;
 use App\Http\Requests\Quote\StoreRequest;
 use App\Http\Resources\QuotePostResource;
 use App\Http\Resources\QuoteResource;
 use App\Models\Quote;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Mockery\Undefined;
 
 class QuoteController extends Controller
 {
@@ -38,5 +40,29 @@ class QuoteController extends Controller
         $quote->save();
 
         return response()->json(['Quote Succesfully added'], 201);
+    }
+    public function show(Quote $quote): JsonResponse
+    {
+        return response()->json(QuotePostResource::make($quote), 200);
+    }
+    public function update(UpdateRequest $request, Quote $quote): JsonResponse
+    {
+        $attributes = $request->validated();
+
+        if ($request->file('image')) {
+            $attributes['image'] = $request->file('image')->store('images');
+        }
+
+        $quote->replaceTranslations('quote', [
+            'en' => $request->quote_en,
+            'ka' => $request->quote_ka,
+        ]);
+        $quote->update($attributes);
+        return response()->json(['Quote updated succesfully'], 204);
+    }
+    public function destroy(Quote $quote): JsonResponse
+    {
+        $quote->delete();
+        return response()->json(['Quote deleted succesfully'], 204);
     }
 }

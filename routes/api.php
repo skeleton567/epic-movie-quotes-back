@@ -42,8 +42,8 @@ Route::middleware(['auth:api'])->group(function () {
         Route::get('post', 'getPost')->name('view.post');
         Route::get('quote/{quote}', 'show')->name('show.post');
         Route::post('quote', 'store')->name('store.quote');
-        Route::patch('update-quote/{quote}', 'update')->name('quote.update');
-        Route::delete('delete-quote/{quote}', 'destroy')->name('quote.destroy');
+        Route::patch('quote/{quote}', 'update')->name('quote.update');
+        Route::delete('quote/{quote}', 'destroy')->name('quote.destroy');
     });
     Route::post('likes', [LikeController::class, 'store'])->name('like.store');
     Route::delete('likes', [LikeController::class, 'destroy'])->name('like.destroy');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Movie\StoreRequest;
+use App\Http\Requests\Movie\UpdateRequest;
 use App\Http\Resources\MovieResource;
 use App\Models\Movie;
 use App\Models\Quote;
@@ -55,5 +56,38 @@ class MovieController extends Controller
     public function selectMovie(Movie $movie): JsonResponse
     {
         return response()->json(MovieResource::make($movie), 200);
+    }
+    public function update(UpdateRequest $request, Movie $movie): JsonResponse
+    {
+        $attributes = $request->validated();
+
+        if ($request->file('image')) {
+            $attributes['image'] = $request->file('image')->store('images');
+        }
+        $movie->replaceTranslations('title', [
+            'en' => $request->title_en,
+            'ka' => $request->title_ka,
+        ]);
+        $movie->replaceTranslations('director', [
+            'en' => $request->director_en,
+            'ka' => $request->director_ka,
+        ]);
+        $movie->replaceTranslations('description', [
+            'en' => $request->description_en,
+            'ka' => $request->description_ka,
+        ]);
+        $movie->update($attributes);
+        $categories = json_decode($request->categories);
+        $ids = [];
+        foreach ($categories as $category) {
+            array_push($ids, $category->id);
+        }
+        $movie->categories()->sync($ids);
+        return response()->json(['Movie deleted succesfully'], 204);
+    }
+    public function destroy(Movie $movie): JsonResponse
+    {
+        $movie->delete();
+        return response()->json(['Movie deleted succesfully'], 204);
     }
 }

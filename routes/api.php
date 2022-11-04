@@ -33,10 +33,12 @@ Route::middleware(['auth:api'])->group(function () {
         Route::post('authorized-user', 'user')->name('auth.user');
     });
     Route::controller(MovieController::class)->group(function () {
-        Route::post('movie', 'store')->name('movie.store');
+        Route::post('movies', 'store')->name('movie.store');
         Route::get('movies', 'show')->name('movie.show');
         Route::get('movies-all', 'index')->name('movie.index');
         Route::get('movies/{movie}', 'selectMovie')->name('movie.select');
+        Route::delete('movies/{movie}', 'destroy')->name('movie.destroy');
+        Route::patch('movies/{movie}', 'update')->name('movie.update');
     });
     Route::controller(QuoteController::class)->group(function () {
         Route::get('post', 'getPost')->name('view.post');

@@ -15,7 +15,7 @@ class GoogleLoginRequest extends FormRequest
     {
         return [
             //
-            'email' => 'required|email',
+            'token' => 'required'
         ];
     }
 }

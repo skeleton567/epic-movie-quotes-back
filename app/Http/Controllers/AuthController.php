@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\Events\Verified;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
@@ -50,10 +51,12 @@ class AuthController extends Controller
 
     public function googleLogin(GoogleLoginRequest $request): JsonResponse
     {
-        if (User::where('email', $request->email)->exists()) {
-            $user = User::firstWhere('email', $request->email);
+        $googleUser = Socialite::driver('google')->userFromToken($request->token);
+
+        if (User::where('email', $googleUser->email)->exists()) {
+            $user = User::firstWhere('email', $googleUser->email);
         } else {
-            $user = User::create($request->validated());
+            $user = User::create(['email' => $googleUser->email, 'name'=> $googleUser->name]);
             $user->google_auth = true;
             $user->markEmailAsVerified();
         }

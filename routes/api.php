@@ -49,9 +49,9 @@ Route::middleware(['language'])->group(function () {
             Route::delete('quote/{quote}', 'destroy')->name('quote.destroy');
         });
         Route::post('likes', [LikeController::class, 'store'])->name('like.store');
-        Route::delete('likes', [LikeController::class, 'destroy'])->name('like.destroy');
+        Route::delete('likes/{like}', [LikeController::class, 'destroy'])->name('like.destroy');
         Route::post('comment', [CommentController::class, 'store'])->name('comment.store');
-        Route::delete('comment', [CommentController::class, 'destroy'])->name('comment.destroy');
+        Route::delete('comment/{comment}', [CommentController::class, 'destroy'])->name('comment.destroy');
 
         Route::get('categories', [CategoryController::class, 'index'])->name('view.category');
         Route::get('notifications', [NotificationController::class, 'index'])->name('notiification.index');

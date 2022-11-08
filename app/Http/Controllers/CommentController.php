@@ -32,9 +32,9 @@ class CommentController extends Controller
 
         return response()->json(CommentResource::make($comment), 201);
     }
-    public function destroy(DestroyRequest $request): JsonResponse
+    public function destroy(Comment $comment): JsonResponse
     {
-        Comment::find($request->validated()['id'])->delete();
+        $comment->delete();
 
         return response()->json(['message' => 'Comment successfully deleted'], 204);
     }

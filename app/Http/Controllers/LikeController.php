@@ -33,9 +33,9 @@ class LikeController extends Controller
 
         return response()->json($like, 201);
     }
-    public function destroy(DestroyRequest $request): JsonResponse
+    public function destroy(Like $like): JsonResponse
     {
-        Like::find($request->validated()['id'])->delete();
+        $like->delete();
 
         return response()->json(['message' => 'Successfully unliked'], 204);
     }

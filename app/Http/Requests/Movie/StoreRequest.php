@@ -17,7 +17,6 @@ class StoreRequest extends FormRequest
         return [
             'title_en' => 'required',
             'title_ka' => 'required',
-            'user_id' => 'required',
             'director_en' => 'required',
             'director_ka' => 'required',
             'release_year' => 'required',

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\PasswordReset;
+namespace App\Http\Requests\Comment;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdatePasswordRequest extends FormRequest
+class DestroyRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -14,9 +14,7 @@ class UpdatePasswordRequest extends FormRequest
     public function rules()
     {
         return [
-            'token' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|min:8|max:15|confirmed',
+            'id' => 'required'
         ];
     }
 }

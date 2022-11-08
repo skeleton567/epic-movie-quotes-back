@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\NotificationEvent;
+use App\Http\Requests\Comment\DestroyRequest;
 use App\Http\Requests\Comment\StoreRequest;
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\NotificationResource;
@@ -30,5 +31,11 @@ class CommentController extends Controller
         });
 
         return response()->json(CommentResource::make($comment), 201);
+    }
+    public function destroy(DestroyRequest $request): JsonResponse
+    {
+        Comment::find($request->validated()['id'])->delete();
+
+        return response()->json(['message' => 'Comment successfully deleted'], 204);
     }
 }

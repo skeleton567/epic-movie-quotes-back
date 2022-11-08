@@ -29,10 +29,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-
         VerifyEmail::createUrlUsing(function ($notifiable) {
-            $frontendUrl = env('BASE_URL'). '/success';
+            $frontendUrl = config('url.frontend'). '/success';
 
             $verifyUrl = URL::temporarySignedRoute(
                 'verification.verify',
@@ -47,7 +45,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         VerifySecondaryEmail::createUrlUsing(function ($notifiable) {
-            $frontendUrl = env('BASE_URL'). '/success';
+            $frontendUrl = config('url.frontend'). '/success';
 
             $verifyUrl = URL::temporarySignedRoute(
                 'secondary.verify',
@@ -62,7 +60,7 @@ class AppServiceProvider extends ServiceProvider
         });
         ResetPassword::createUrlUsing(function ($notifiable, $token) {
             $email =  $notifiable->getEmailForPasswordReset();
-            return  env('BASE_URL') . "/create-password?token=$token&email=$email";
+            return  config('url.frontend') . "/create-password?token=$token&email=$email";
         });
     }
 }

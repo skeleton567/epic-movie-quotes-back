@@ -43,7 +43,7 @@ class MovieController extends Controller
     }
     public function show(): JsonResponse
     {
-        $movie = MovieResource::collection(auth()->user()->movies);
+        $movie = MovieResource::collection(auth()->user()->movies->sortByDesc('id'));
 
         return response()->json($movie, 200);
     }

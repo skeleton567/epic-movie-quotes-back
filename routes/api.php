@@ -23,65 +23,62 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::middleware(['language'])->group(function () {
-    Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-        return $request->user();
-    });
 
-    Route::middleware(['auth:api'])->group(function () {
-        Route::controller(AuthController::class)->group(function () {
-            Route::post('logout', 'logout')->name('logout');
-            Route::post('authorized-user', 'user')->name('auth.user');
-        });
-        Route::controller(MovieController::class)->group(function () {
-            Route::post('movies', 'store')->name('movie.store');
-            Route::get('movies', 'show')->name('movie.show');
-            Route::get('movies-all', 'index')->name('movie.index');
-            Route::get('movies/{movie}', 'selectMovie')->name('movie.select');
-            Route::delete('movies/{movie}', 'destroy')->name('movie.destroy');
-            Route::patch('movies/{movie}', 'update')->name('movie.update');
-        });
-        Route::controller(QuoteController::class)->group(function () {
-            Route::get('post', 'getPost')->name('view.post');
-            Route::get('quote/{quote}', 'show')->name('show.post');
-            Route::post('quote', 'store')->name('store.quote');
-            Route::patch('quote/{quote}', 'update')->name('quote.update');
-            Route::delete('quote/{quote}', 'destroy')->name('quote.destroy');
-        });
-        Route::post('likes', [LikeController::class, 'store'])->name('like.store');
-        Route::delete('likes/{like}', [LikeController::class, 'destroy'])->name('like.destroy');
-        Route::post('comment', [CommentController::class, 'store'])->name('comment.store');
-        Route::delete('comment/{comment}', [CommentController::class, 'destroy'])->name('comment.destroy');
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
 
-        Route::get('categories', [CategoryController::class, 'index'])->name('view.category');
-        Route::get('notifications', [NotificationController::class, 'index'])->name('notiification.index');
-        Route::patch('notifications/update', [NotificationController::class, 'update'])->name('notiification.update');
-
-        Route::controller(UserController::class)->group(function () {
-            Route::patch('update-name', 'updateName')->name('name.update');
-            Route::patch('update-password', 'updatePassword')->name('password.update');
-            Route::post('add-email', 'addEmail')->name('add.email');
-            Route::get('secondary-email', 'getSecondaryEmail')->name('secondary.email');
-            Route::post('make-primary', 'makePrimary')->name('make.primary');
-            Route::delete('destroy-email', 'destroyEmail')->name('destroy.email');
-            Route::post('profile-image', 'storeProfileImage')->name('profile.image');
-        });
-    });
-
+Route::middleware(['auth:api'])->group(function () {
     Route::controller(AuthController::class)->group(function () {
-        Route::post('register', 'register')->name('register');
-        Route::post('login', 'login')->name('login');
-        Route::post('refresh-token', 'refresh')->name('refresh.token');
-        Route::post('google-login', 'googleLogin')->name('google.login');
-        Route::get('/email/verify/{id}/{hash}', 'verify')->name('verification.verify');
-        Route::get('/email/verify/{id}/{hash}', 'secondaryVerify')->name('secondary.verify');
+        Route::post('logout', 'logout')->name('logout');
+        Route::post('authorized-user', 'user')->name('auth.user');
     });
+    Route::controller(MovieController::class)->group(function () {
+        Route::post('movies', 'store')->name('movie.store');
+        Route::get('movies', 'show')->name('movie.show');
+        Route::get('movies-all', 'index')->name('movie.index');
+        Route::get('movies/{movie}', 'selectMovie')->name('movie.select');
+        Route::delete('movies/{movie}', 'destroy')->name('movie.destroy');
+        Route::patch('movies/{movie}', 'update')->name('movie.update');
+    });
+    Route::controller(QuoteController::class)->group(function () {
+        Route::get('post', 'getPost')->name('view.post');
+        Route::get('quote/{quote}', 'show')->name('show.post');
+        Route::post('quote', 'store')->name('store.quote');
+        Route::patch('quote/{quote}', 'update')->name('quote.update');
+        Route::delete('quote/{quote}', 'destroy')->name('quote.destroy');
+    });
+    Route::post('likes', [LikeController::class, 'store'])->name('like.store');
+    Route::delete('likes/{like}', [LikeController::class, 'destroy'])->name('like.destroy');
+    Route::post('comment', [CommentController::class, 'store'])->name('comment.store');
+    Route::delete('comment/{comment}', [CommentController::class, 'destroy'])->name('comment.destroy');
 
-    Route::get('quote', [QuoteController::class, 'index'])->name('view.quote');
-    Route::controller(PasswordResetController::class)->group(function () {
-        Route::post('/forgot-password', 'forgotPassword')->name('password.email');
-        Route::post('/reset-password', 'passwordUpdate')->name('password.update');
+    Route::get('categories', [CategoryController::class, 'index'])->name('view.category');
+    Route::get('notifications', [NotificationController::class, 'index'])->name('notiification.index');
+    Route::patch('notifications/update', [NotificationController::class, 'update'])->name('notiification.update');
+
+    Route::controller(UserController::class)->group(function () {
+        Route::patch('name', 'updateName')->name('name.update');
+        Route::patch('password', 'updatePassword')->name('password.update');
+        Route::post('add-email', 'addEmail')->name('add.email');
+        Route::get('secondary-email', 'getSecondaryEmail')->name('secondary.email');
+        Route::post('make-primary', 'makePrimary')->name('make.primary');
+        Route::delete('destroy-email', 'destroyEmail')->name('destroy.email');
+        Route::post('profile-image', 'storeProfileImage')->name('profile.image');
     });
 });
 
-Route::post('locale', [LanguageController::class, 'change'])->name('language.change');
+Route::controller(AuthController::class)->group(function () {
+    Route::post('register', 'register')->name('register');
+    Route::post('login', 'login')->name('login');
+    Route::post('refresh-token', 'refresh')->name('refresh.token');
+    Route::post('google-login', 'googleLogin')->name('google.login');
+    Route::get('/email/verify/{id}/{hash}', 'verify')->name('verification.verify');
+    Route::get('/email/verify/{id}/{hash}', 'secondaryVerify')->name('secondary.verify');
+});
+
+Route::get('quote', [QuoteController::class, 'index'])->name('view.quote');
+Route::controller(PasswordResetController::class)->group(function () {
+    Route::post('/forgot-password', 'forgotPassword')->name('password.email');
+    Route::post('/reset-password', 'passwordUpdate')->name('password.update');
+});

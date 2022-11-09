@@ -16,7 +16,7 @@ class QuoteMovieResource extends JsonResource
     {
         return [
         'id' => $this->id,
-        'quote' => $this->quote,
+        'quote' =>$this->getTranslations('quote'),
         'image' => $this->image,
         'like' => LikeResource::collection($this->likes),
         'comment' => CommentResource::collection($this->comments),

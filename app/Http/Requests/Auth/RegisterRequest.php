@@ -19,4 +19,17 @@ class RegisterRequest extends FormRequest
             'password' => 'required|min:8|max:15|confirmed',
         ];
     }
+    public function messages()
+    {
+        return [
+             'name.unique' => [
+                'ka' => __('validation.unique', ['attribute' => 'სახელი'], 'ka'),
+                'en' => __('validation.unique', ['attribute' => 'name'], 'en'),
+             ],
+            'email.unique' => [
+                'en' => __('validation.unique', ['attribute' => 'email'], 'en'),
+                'ka' => __('validation.unique', ['attribute' => 'იმეილი'], 'ka'),
+             ],
+        ];
+    }
 }

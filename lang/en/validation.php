@@ -140,6 +140,7 @@ return [
     'uploaded' => 'The :attribute failed to upload.',
     'url' => 'The :attribute must be a valid URL.',
     'uuid' => 'The :attribute must be a valid UUID.',
+    "incorect_credentians" => "Name or password is not correct",
 
     /*
     |--------------------------------------------------------------------------
@@ -169,6 +170,7 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+    ],
 
 ];

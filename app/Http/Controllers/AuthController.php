@@ -43,9 +43,8 @@ class AuthController extends Controller
         }
 
         if (!$token) {
-            return response()->json(['error' => 'Name or password is not correct'], 404);
+            return response()->json($this->assemble_erorr(), 404);
         }
-
         return $this->respondWithToken($token, $time);
     }
 
@@ -116,5 +115,12 @@ class AuthController extends Controller
             'token_type'   => 'bearer',
             'expires_in'   => auth()->factory()->getTTL() * $time,
         ]);
+    }
+    private function assemble_erorr()
+    {
+        return ['errors' => ['name' => [[
+            'ka' => __('validation.incorect_credentians', ['attribute' => 'სახელი'], 'ka'),
+            'en' => __('validation.incorect_credentians', ['attribute' => 'name'], 'en')
+            ]]]];
     }
 }

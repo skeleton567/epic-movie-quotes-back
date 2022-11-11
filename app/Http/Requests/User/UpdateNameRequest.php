@@ -18,4 +18,13 @@ class UpdateNameRequest extends FormRequest
             'name' => 'required|min:3|max:15|unique:users',
         ];
     }
+    public function messages()
+    {
+        return [
+             'name.unique' => [
+                'ka' => __('validation.unique', ['attribute' => 'სახელი'], 'ka'),
+                'en' => __('validation.unique', ['attribute' => 'name'], 'en'),
+             ],
+        ];
+    }
 }

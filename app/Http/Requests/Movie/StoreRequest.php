@@ -23,7 +23,6 @@ class StoreRequest extends FormRequest
             'budget' => 'required',
             'description_ka' => 'required',
             'description_en' => 'required',
-            'image' => 'required|image'
         ];
     }
 }

@@ -18,4 +18,13 @@ class AddEmailRequest extends FormRequest
             'user_id' => 'required',
         ];
     }
+    public function messages()
+    {
+        return [
+            'email.unique' => [
+                'en' => __('validation.unique', ['attribute' => 'email'], 'en'),
+                'ka' => __('validation.unique', ['attribute' => 'იმეილი'], 'ka'),
+             ],
+        ];
+    }
 }

@@ -14,8 +14,17 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'    => 'required|min:3',
+            'name'    => 'required|min:3|exists:users',
             'password' => 'required',
+        ];
+    }
+    public function messages()
+    {
+        return [
+             'name.exists' => [
+                'ka' => __('validation.incorect_credentians', ['attribute' => 'სახელი'], 'ka'),
+                'en' => __('validation.incorect_credentians', ['attribute' => 'name'], 'en'),
+             ],
         ];
     }
 }

@@ -13,9 +13,9 @@ class NotificationController extends Controller
 {
     //
 
-    public function index(IndexRequest $request): JsonResponse
+    public function index(): JsonResponse
     {
-        $notifications = Notification::orderByDesc('id')->where('user_to_notify', $request->id)->get();
+        $notifications = Notification::orderByDesc('id')->where('user_to_notify', auth()->id())->get();
         return response()->json(NotificationResource::collection($notifications), 200);
     }
     public function update(UpdateRequest $request): JsonResponse

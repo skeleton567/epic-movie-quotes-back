@@ -14,10 +14,19 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'quote_ka' => 'required',
-            'quote_en' => 'required',
+            'quote_ka' => 'required|regex:/^[აბგდევზთიკლმნოპჟრსტუფქღყშჩცძწჭხჯჰ.,!?\s]*$/',
+            'quote_en' => 'required|regex:/^[a-zA-Z0-9\s]+$/',
             'movie_id' => 'required',
-            'image' => 'required|image'
+            'image' => 'image'
+        ];
+    }
+    public function messages()
+    {
+        return [
+             'image.image' => [
+                'ka' => __('validation.image', ['attribute' => 'სურათი'], 'ka'),
+                'en' => __('validation.image', ['attribute' => 'Image'], 'en'),
+             ],
         ];
     }
 }

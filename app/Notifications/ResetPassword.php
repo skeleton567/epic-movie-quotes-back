@@ -15,7 +15,7 @@ class ResetPassword extends ResetPasswordBase
     {
         $url = $this->resetUrl($notifiable);
         return (new MailMessage())
-        ->subject(Lang::get(__('email.subject_reset')))
+        ->subject('Reset Password')
         ->view(
             'email.reset-message',
             ['url' => $url,

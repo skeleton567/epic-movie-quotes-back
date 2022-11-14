@@ -3,14 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Events\NotificationEvent;
-use App\Http\Requests\Comment\DestroyRequest;
 use App\Http\Requests\Comment\StoreRequest;
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\NotificationResource;
 use App\Models\Comment;
 use App\Models\Notification;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class CommentController extends Controller

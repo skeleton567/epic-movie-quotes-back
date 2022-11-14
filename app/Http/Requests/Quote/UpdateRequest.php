@@ -14,8 +14,8 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'quote_en' => 'required',
-            'quote_ka' => 'required',
+            'quote_en' => 'required|regex:/^[a-zA-Z0-9\s]+$/',
+            'quote_ka' => 'required|regex:/^[აბგდევზთიკლმნოპჟრსტუფქღყშჩცძწჭხჯჰ.,!?\s]*$/',
         ];
     }
 }

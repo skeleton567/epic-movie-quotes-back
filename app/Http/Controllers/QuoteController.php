@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Quote\SearchRequest;
 use App\Http\Requests\Quote\UpdateRequest;
 use App\Http\Requests\Quote\StoreRequest;
 use App\Http\Resources\QuotePostResource;
@@ -9,6 +10,7 @@ use App\Http\Resources\QuoteResource;
 use App\Models\Quote;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Mockery\Undefined;
 
 class QuoteController extends Controller
@@ -64,5 +66,29 @@ class QuoteController extends Controller
     {
         $quote->delete();
         return response()->json(['Quote deleted succesfully'], 204);
+    }
+    public function searchPost(SearchRequest $request): JsonResponse
+    {
+        if (strpos($request->search, '@') === 0) {
+            $search = ltrim($request->search, $request->search[0]);
+            $quote = QuotePostResource::collection(Quote::with(['movie'])
+            ->whereHas('movie', function ($movie) use ($search) {
+                $movie->where(DB::raw('lower(title)'), 'LIKE', "%". strtolower($search)."%");
+            })->orderByDesc('id')->simplePaginate(5));
+        } elseif (strpos($request->search, '#') === 0) {
+            $search = ltrim($request->search, $request->search[0]);
+            $quote = QuotePostResource::collection(Quote::query()
+            ->where(DB::raw('lower(quote)'), 'LIKE', "%". strtolower($search)."%")
+            ->orderByDesc('id')->simplePaginate(5));
+        } else {
+            $quote = QuotePostResource::collection(Quote::with(['movie'])
+            ->whereHas('movie', function ($movie) use ($request) {
+                $movie->where(DB::raw('lower(title)'), 'LIKE', "%". strtolower($request->search)."%");
+            })
+            ->orWhere(DB::raw('lower(quote)'), 'LIKE', "%". strtolower($request->search)."%")
+            ->orderByDesc('id')->simplePaginate(5));
+        }
+
+        return response()->json($quote, 200);
     }
 }

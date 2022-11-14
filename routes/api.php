@@ -43,6 +43,7 @@ Route::middleware(['auth:api'])->group(function () {
     });
     Route::controller(QuoteController::class)->group(function () {
         Route::get('post', 'getPost')->name('view.post');
+        Route::get('search-post', 'searchPost')->name('search.post');
         Route::get('quote/{quote}', 'show')->name('show.post');
         Route::post('quote', 'store')->name('store.quote');
         Route::patch('quote/{quote}', 'update')->name('quote.update');

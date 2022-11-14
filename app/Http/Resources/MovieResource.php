@@ -29,7 +29,7 @@ class MovieResource extends JsonResource
             'budget' => $this->budget,
             'image' => $this->image,
             'categories' => CategoryResource::collection($this->categories),
-            'quote' => QuoteMovieResource::collection($this->quotes)
+            'quote' => QuoteMovieResource::collection($this->quotes),
         ];
     }
 }

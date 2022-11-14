@@ -17,7 +17,7 @@ class VerifyEmail extends VerifyEmailBase
     {
         $url = $this->verificationUrl($notifiable);
         return (new MailMessage())
-            ->subject(Lang::get(__('email.subject_verify')))
+            ->subject('Verify Email')
             ->view(
                 'email.verify-message',
                 ['url' => $url,

@@ -19,7 +19,7 @@ class VerifySecondaryEmail extends VerifyEmailBase
         $url = $this->verificationUrl($notifiable);
         $name = User::find($notifiable->user_id)->name;
         return (new MailMessage())
-            ->subject(Lang::get(__('email.subject_verify')))
+            ->subject('Verify Email')
             ->view(
                 'email.verify-message',
                 ['url' => $url,

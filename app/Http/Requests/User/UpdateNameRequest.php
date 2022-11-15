@@ -15,7 +15,7 @@ class UpdateNameRequest extends FormRequest
     {
         return [
             'id' => 'required',
-            'name' => 'required|min:3|max:15|unique:users',
+            'name' => 'required|min:3|max:15|unique:users|regex:/^[a-z0-9]*$/',
         ];
     }
     public function messages()

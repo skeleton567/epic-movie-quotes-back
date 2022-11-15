@@ -3,14 +3,12 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
-use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,10 +21,6 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 Route::middleware(['auth:api'])->group(function () {
     Route::controller(AuthController::class)->group(function () {
@@ -72,7 +66,6 @@ Route::middleware(['auth:api'])->group(function () {
 Route::controller(AuthController::class)->group(function () {
     Route::post('register', 'register')->name('register');
     Route::post('login', 'login')->name('login');
-    Route::post('refresh-token', 'refresh')->name('refresh.token');
     Route::post('google-login', 'googleLogin')->name('google.login');
     Route::get('/email/verify/{id}/{hash}', 'verify')->name('verification.verify');
     Route::get('/email/verify/{id}/{hash}', 'secondaryVerify')->name('secondary.verify');

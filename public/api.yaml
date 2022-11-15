@@ -10,9 +10,18 @@ servers:
   - url: http://producation.app/api
     description: production server
 
+components:
+  securitySchemes:
+    Auth:      
+      type: apiKey
+      in: header       
+      name: Authorization 
+      description: Bearer {JWT token}
+
 paths:
   /register:
     post:
+      tags: ["Authentification"]
       summary: Register user
       requestBody:
         required: true
@@ -36,14 +45,17 @@ paths:
               name: gela
               email: gela@redberry.ge
               password: fghfghfghfgh
+              password_confirmation: fghfghfghfgh
       responses:
         "200":
           description: Data created succesfully
           content:
             application/json:
               schema:
+
   /login:
     post:
+      tags: ["Authentification"]
       summary: Login user
       requestBody:
         required: true
@@ -69,3 +81,251 @@ paths:
           content:
             application/json:
               schema:
+
+  /logout:
+    post:
+      tags: ["Authentification"]
+      summary: Logout user
+      security: 
+       - Auth: []
+      responses:
+        "200":
+          description: Logged out succesfully
+          content:
+            application/json:
+              schema:
+        
+      
+  /authorized-user:
+    post:
+      tags: ["Authentification"]
+      summary: Get authorized user
+      security: 
+       - Auth: []
+      responses:
+        "200":
+          description: Fetched authorized user succesfully
+          content:
+            application/json:
+              schema:
+        
+  
+  /movies:
+    post:
+      tags: ["Movies"]
+      summary: Create new movie
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title_en:
+                  type: string
+                  required: true
+                  format: only english letters and spaces
+                title_ka:
+                  type: string
+                  required: true
+                  format: only georgian letters and spaces
+                director_en:
+                  type: string
+                  required: true
+                  format: only english letters and spaces
+                director_ka:
+                  type: string
+                  required: true
+                  format: only georgian letters and spaces
+                description_en:
+                  type: string
+                  required: true
+                  format: only english letters and spaces
+                description_ka:
+                  type: string
+                  required: true
+                  format: only georgian letters and spaces
+                release_year:
+                  type: intiger
+                  required: true
+                budget:
+                  type: intiger
+                  required: true
+                image:
+                  required: false
+                  type: file
+                categories:
+                  required: false
+                  type: array
+                  items: 
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      category_ka:
+                        type: string
+                      category_en:
+                        type: string
+            example:
+                title_en: Pepa
+                title_ka: პეპა
+                director_en: Peter Jackson
+                director_ka: პიტერ ჟექსონი
+                description_en: Best movie ever
+                description_ka: საუკეთესო ფილმი
+                release_year: 1999
+                budget: 700000
+      security: 
+       - Auth: []
+      responses:
+        "201":
+          description: Movie created successfully
+          content:
+            application/json:
+              schema:
+       
+    get:
+      tags: ["Movies"]
+      summary: Get all movies of authorized user
+      security: 
+       - Auth: []
+      responses:
+        "200":
+          description: Movies fetched  succesfully
+          content:
+            application/json:
+              schema:
+       
+
+  /movies-all:
+      get:
+        tags: ["Movies"]
+        summary: Get all movies
+        security: 
+        - Auth: []
+        responses:
+          "200":
+            description: Movies fetched  succesfully
+            content:
+              application/json:
+                schema:
+         
+  
+  /movies/{movie}:
+    get:
+      tags: ["Movies"]
+      summary: Get specific movie
+      parameters:
+        - in: path
+          name: movie
+          schema:
+            type: integer
+          required: true
+      security: 
+      - Auth: []
+      responses:
+        "200":
+          description: Movie fetched succesfully
+          content:
+            application/json:
+              schema:
+    delete:
+      tags: ["Movies"]
+      summary: Delete specific movie
+      parameters:
+        - in: path
+          name: movie
+          schema:
+            type: integer
+          required: true
+      security: 
+      - Auth: []
+      responses:
+        "204":
+          description: Movie deleted succesfully
+          content:
+            application/json:
+              schema:
+    patch:
+      tags: ["Movies"]
+      summary: Delete specific movie
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title_en:
+                  type: string
+                  required: true
+                  format: only english letters and spaces
+                title_ka:
+                  type: string
+                  required: true
+                  format: only georgian letters and spaces
+                director_en:
+                  type: string
+                  required: true
+                  format: only english letters and spaces
+                director_ka:
+                  type: string
+                  required: true
+                  format: only georgian letters and spaces
+                description_en:
+                  type: string
+                  required: true
+                  format: only english letters and spaces
+                description_ka:
+                  type: string
+                  required: true
+                  format: only georgian letters and spaces
+                release_year:
+                  type: intiger
+                  required: true
+                budget:
+                  type: intiger
+                  required: true
+                user_id:
+                  type: intiger
+                  required: true
+                image:
+                  required: false
+                  type: file
+                categories:
+                  required: false
+                  type: array
+                  items: 
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      category_ka:
+                        type: string
+                      category_en:
+                        type: string
+            example:
+                title_en: Pepa
+                title_ka: პეპა
+                director_en: Peter Jackson
+                director_ka: პიტერ ჟექსონი
+                description_en: Best movie ever
+                description_ka: საუკეთესო ფილმი
+                release_year: 1999
+                budget: 700000
+                user_id: 1
+      parameters:
+        - in: path
+          name: movie
+          schema:
+            type: integer
+          required: true
+      security: 
+      - Auth: []
+      responses:
+        "204":
+          description: Movie deleted succesfully
+          content:
+            application/json:
+              schema:
+       

@@ -39,7 +39,7 @@ class MovieController extends Controller
             $movie->categories()->attach($category->id);
         }
         $movie->save();
-        return response()->json(['movie created successfully'], 201);
+        return response()->json(['message' => 'Movie created successfully'], 201);
     }
     public function show(): JsonResponse
     {
@@ -77,17 +77,19 @@ class MovieController extends Controller
             'ka' => $request->description_ka,
         ]);
         $movie->update($attributes);
-        $categories = json_decode($request->categories);
-        $ids = [];
-        foreach ($categories as $category) {
-            array_push($ids, $category->id);
+        if ($request->categories) {
+            $categories = $request->categories;
+            $ids = [];
+            foreach ($categories as $category) {
+                array_push($ids, $category->id);
+            }
+            $movie->categories()->sync($ids);
         }
-        $movie->categories()->sync($ids);
-        return response()->json(['Movie deleted succesfully'], 204);
+        return response()->json(['message' => 'Movie updated succesfully'], 204);
     }
     public function destroy(Movie $movie): JsonResponse
     {
         $movie->delete();
-        return response()->json(['Movie deleted succesfully'], 204);
+        return response()->json(['message' => 'Movie deleted succesfully'], 204);
     }
 }

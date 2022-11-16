@@ -20,26 +20,26 @@ class UserController extends Controller
 {
     public function updateName(UpdateNameRequest $request): JsonResponse
     {
-        $user = User::find($request->id);
+        $user = User::find(auth()->id());
         $user->update(['name' => $request->name]);
 
-        return response()->json('User updated successfully', 204);
+        return response()->json(['message' => 'User updated successfully'], 204);
     }
     public function addEmail(AddEmailRequest $request): JsonResponse
     {
         $email = SecondaryEmail::create($request->validated());
         event(new Registered($email));
-        return response()->json('User updated successfully', 204);
+        return response()->json(['message' => 'User updated successfully'], 204);
     }
-    public function getSecondaryEmail(SecondaryEmailRequest  $request): JsonResponse
+    public function getSecondaryEmail(): JsonResponse
     {
-        $data = UserSecondaryEmailResource::make(User::find($request->id));
+        $data = UserSecondaryEmailResource::make(User::find(auth()->id()));
 
         return response()->json($data, 200);
     }
     public function makePrimary(MakePrimaryRequest  $request): JsonResponse
     {
-        $user = User::find($request->id);
+        $user = User::find(auth()->id());
         $secondaryEmail =  SecondaryEmail::firstWhere('email', $request->email);
         $secondaryEmail->email =  $user->email;
         $secondaryEmail->email_verified_at = $user->email_verified_at;
@@ -48,32 +48,32 @@ class UserController extends Controller
         $user->save();
         $secondaryEmail->save();
 
-        return response()->json(['Primary email changed successfully'], 200);
+        return response()->json(['message' => 'Primary email changed successfully'], 200);
     }
     public function destroyEmail(DestroyEmailRequest $request): JsonResponse
     {
         $secondaryEmail = SecondaryEmail::find($request->id);
         $secondaryEmail->delete();
 
-        return response()->json(['Primary email deleted successfully'], 204);
+        return response()->json(['message' => 'Secondary email deleted successfully'], 204);
     }
     public function updatePassword(UpdatePasswordRequest $request): JsonResponse
     {
-        $user = User::find($request->id);
+        $user = User::find(auth()->id());
         $user->forceFill([
                     'password' => $request->password
                 ])->setRememberToken(null);
 
         $user->save();
 
-        return response()->json(['Password updated successfully'], 204);
+        return response()->json(['message' => 'Password updated successfully'], 204);
     }
     public function storeProfileImage(StoreProfilePictureRequest $request): JsonResponse
     {
-        $user = User::find($request->id);
+        $user = User::find(auth()->id());
         $path = $request->file('image')->store('images');
         $user->profile_picture = $path;
         $user->save();
-        return response()->json(['Profile picture set successfully'], 204);
+        return response()->json(['message' => 'Profile picture set successfully'], 201);
     }
 }

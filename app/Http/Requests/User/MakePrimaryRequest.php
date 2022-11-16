@@ -16,7 +16,6 @@ class MakePrimaryRequest extends FormRequest
         return [
             'email'    => 'required|email',
             'verified'    => 'required',
-            'id' => 'required',
         ];
     }
 }

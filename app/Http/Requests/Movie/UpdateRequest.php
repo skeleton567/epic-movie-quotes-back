@@ -16,7 +16,6 @@ class UpdateRequest extends FormRequest
         return [
             'title_en' => 'required|regex:/^[a-zA-Z0-9\s]+$/',
             'title_ka' => 'required|regex:/^[აბგდევზთიკლმნოპჟრსტუფქღყშჩცძწჭხჯჰ.,!?\s]*$/',
-            'user_id' => 'required',
             'director_en' => 'required|regex:/^[a-zA-Z0-9\s]+$/',
             'director_ka' => 'required|regex:/^[აბგდევზთიკლმნოპჟრსტუფქღყშჩცძწჭხჯჰ.,!?\s]*$/',
             'release_year' => 'required',

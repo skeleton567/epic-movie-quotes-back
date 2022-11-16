@@ -16,14 +16,16 @@ class NotificationEvent implements ShouldBroadcast
     use SerializesModels;
 
     public $notification;
+    public $data;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($notification)
+    public function __construct($notification, $data)
     {
         $this->notification = $notification;
+        $this->data = $data;
     }
 
     /**

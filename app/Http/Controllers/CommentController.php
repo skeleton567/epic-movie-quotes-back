@@ -16,7 +16,7 @@ class CommentController extends Controller
     //
     public function store(StoreRequest $request): JsonResponse
     {
-        $comment =  DB::transaction(function () use ($request) {
+        DB::transaction(function () use ($request) {
             $comment = Comment::create($request->validated());
             $notification = Notification::create([
                 'user_id' => $request->user_id,
@@ -24,11 +24,10 @@ class CommentController extends Controller
                 'type' => 'comment',
                 'seen_by_user' => false
             ]);
-            event(new NotificationEvent(NotificationResource::make($notification)));
-            return $comment;
+            event(new NotificationEvent(NotificationResource::make($notification), CommentResource::make($comment)));
         });
 
-        return response()->json(CommentResource::make($comment), 201);
+        return response()->json(['message' =>'Comment created successfully'], 201);
     }
     public function destroy(Comment $comment): JsonResponse
     {

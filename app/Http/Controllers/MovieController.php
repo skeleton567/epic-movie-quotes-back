@@ -34,9 +34,11 @@ class MovieController extends Controller
             'en' => $request->description_en,
             'ka' => $request->description_ka,
         ]);
-        $categories = json_decode($request->categories);
-        foreach ($categories as $category) {
-            $movie->categories()->attach($category->id);
+        if ($request->categories) {
+            $categories = $request->categories;
+            foreach ($categories as $category) {
+                $movie->categories()->attach($category->id);
+            }
         }
         $movie->save();
         return response()->json(['message' => 'Movie created successfully'], 201);

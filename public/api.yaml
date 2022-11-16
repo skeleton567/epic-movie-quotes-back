@@ -34,21 +34,29 @@ paths:
                   type: string
                   required: true
                   minLength: 3
+                  maxLength: 15
+                  format: Only english lowercase letters and numbers
                 email:
                   type: string
                   required: true
+                  format: Email
                 password:
                   type: string
                   required: true
                   minLength: 8
+                  maxLength: 15
+                password_confirmation:
+                  type: string
+                  required: true
+                  format: Same as password
             example:
               name: gela
               email: gela@redberry.ge
               password: fghfghfghfgh
               password_confirmation: fghfghfghfgh
       responses:
-        "200":
-          description: Data created succesfully
+        "201":
+          description: User created succesfully
           content:
             application/json:
               schema:
@@ -72,6 +80,7 @@ paths:
                   type: string
                   required: true
                   minLength: 8
+                  maxLength: 15
             example:
               name: gela
               password: fghfghfghfgh
@@ -108,7 +117,90 @@ paths:
           content:
             application/json:
               schema:
-        
+
+  /google-login:
+    post:
+      tags: ["Authentification"]
+      summary: Login user with google
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                  required: true
+      responses:
+        "200":
+          description: Logged in succesfully
+          content:
+            application/json:
+              schema:
+
+  /forgot-password:
+    post:
+      tags: ["Authentification"]
+      summary: Send email to reset password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  required: true
+                  format: Email
+            example:
+              email: gela@redberry.ge
+      responses:
+        "200":
+          description: Password reset email is sent
+          content:
+            application/json:
+              schema:
+    
+  /reset-password:
+    post:
+      tags: ["Authentification"]
+      summary: Uptade password with new password value
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  required: true
+                  format: Email
+                token:
+                  type: string
+                  required: true
+                password:
+                  type: string
+                  required: true
+                  minLength: 8
+                  maxLength: 15
+                password_confirmation:
+                  type: string
+                  required: true
+                  format: Same as password
+            example:
+              email: gela@redberry.ge
+              password: fghfghfghfgh
+              password_confirmation: fghfghfghfgh
+      responses:
+        "200":
+          description: Password update succesfully
+          content:
+            application/json:
+              schema:
+
   
   /movies:
     post:
@@ -117,7 +209,7 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
+          multipart/form-data:
             schema:
               type: object
               properties:
@@ -125,34 +217,42 @@ paths:
                   type: string
                   required: true
                   format: only english letters and spaces
+                  default: Lord of the rings
                 title_ka:
                   type: string
                   required: true
                   format: only georgian letters and spaces
+                  default: ბეჭდების მბრძანებელი
                 director_en:
                   type: string
                   required: true
                   format: only english letters and spaces
+                  default: Peter jackson
                 director_ka:
                   type: string
                   required: true
                   format: only georgian letters and spaces
+                  default: პიტერ ჯექსონი
                 description_en:
                   type: string
                   required: true
                   format: only english letters and spaces
+                  default: The Lord of the Rings is a series of three epic fantasy adventure films directed by Peter Jackson
                 description_ka:
                   type: string
                   required: true
                   format: only georgian letters and spaces
+                  default: ბეჭდების მბრძანებელი არის სამი ეპიკური ფანტასტიკური სათავგადასავლო ფილმის სერია, რომლის რეჟისორია პიტერ ჯექსონი
                 release_year:
                   type: intiger
                   required: true
+                  default: 2001
                 budget:
                   type: intiger
                   required: true
+                  default: 281000000
                 image:
-                  required: false
+                  required: true
                   type: file
                 categories:
                   required: false
@@ -166,15 +266,17 @@ paths:
                         type: string
                       category_en:
                         type: string
-            example:
-                title_en: Pepa
-                title_ka: პეპა
-                director_en: Peter Jackson
-                director_ka: პიტერ ჟექსონი
-                description_en: Best movie ever
-                description_ka: საუკეთესო ფილმი
-                release_year: 1999
-                budget: 700000
+              required:
+                - title_en
+                - title_ka
+                - director_en
+                - director_ka
+                - description_en
+                - description_ka
+                - release_year
+                - budget
+                - _method
+                - image
       security: 
        - Auth: []
       responses:
@@ -212,15 +314,16 @@ paths:
          
   
   /movies/{movie}:
-    get:
-      tags: ["Movies"]
-      summary: Get specific movie
-      parameters:
+    parameters:
         - in: path
           name: movie
           schema:
             type: integer
           required: true
+          
+    get:
+      tags: ["Movies"]
+      summary: Get specific movie
       security: 
       - Auth: []
       responses:
@@ -232,12 +335,6 @@ paths:
     delete:
       tags: ["Movies"]
       summary: Delete specific movie
-      parameters:
-        - in: path
-          name: movie
-          schema:
-            type: integer
-          required: true
       security: 
       - Auth: []
       responses:
@@ -246,13 +343,13 @@ paths:
           content:
             application/json:
               schema:
-    patch:
+    post:
       tags: ["Movies"]
-      summary: Delete specific movie
+      summary: Update specific movie
       requestBody:
         required: true
         content:
-          application/json:
+          multipart/form-data:
             schema:
               type: object
               properties:
@@ -260,38 +357,46 @@ paths:
                   type: string
                   required: true
                   format: only english letters and spaces
+                  default: Lord of the rings
                 title_ka:
                   type: string
                   required: true
                   format: only georgian letters and spaces
+                  default: ბეჭდების მბრძანებელი
                 director_en:
                   type: string
                   required: true
                   format: only english letters and spaces
+                  default: Peter jackson
                 director_ka:
                   type: string
                   required: true
                   format: only georgian letters and spaces
+                  default: პიტერ ჯექსონი
                 description_en:
                   type: string
                   required: true
                   format: only english letters and spaces
+                  default: The Lord of the Rings is a series of three epic fantasy adventure films directed by Peter Jackson
                 description_ka:
                   type: string
                   required: true
                   format: only georgian letters and spaces
+                  default: ბეჭდების მბრძანებელი არის სამი ეპიკური ფანტასტიკური სათავგადასავლო ფილმის სერია, რომლის რეჟისორია პიტერ ჯექსონი
                 release_year:
                   type: intiger
                   required: true
+                  default: 2001
                 budget:
                   type: intiger
                   required: true
-                user_id:
-                  type: intiger
-                  required: true
+                  default: 281000000
                 image:
                   required: false
                   type: file
+                _method:
+                  type: string
+                  default: PATCH
                 categories:
                   required: false
                   type: array
@@ -304,28 +409,526 @@ paths:
                         type: string
                       category_en:
                         type: string
-            example:
-                title_en: Pepa
-                title_ka: პეპა
-                director_en: Peter Jackson
-                director_ka: პიტერ ჟექსონი
-                description_en: Best movie ever
-                description_ka: საუკეთესო ფილმი
-                release_year: 1999
-                budget: 700000
-                user_id: 1
-      parameters:
-        - in: path
-          name: movie
-          schema:
-            type: integer
-          required: true
+              required:
+                - title_en
+                - title_ka
+                - director_en
+                - director_ka
+                - description_en
+                - description_ka
+                - release_year
+                - budget
+                - _method
       security: 
       - Auth: []
       responses:
         "204":
-          description: Movie deleted succesfully
+          description: Movie updated succesfully
           content:
             application/json:
               schema:
+  
+  /post:
+      get:
+        tags: ["Quote"]
+        summary: Get all posts. Five on each page
+        parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+        security: 
+        - Auth: []
+        responses:
+          "200":
+            description: Posts fetched  succesfully
+            content:
+              application/json:
+                schema:
+                  
+  /search-post:
+      get:
+        tags: ["Quote"]
+        summary: Search movies with @, and quotes - '#'. Five on each page
+        parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+        - in: query
+          name: search
+          schema:
+            type: string
+            required: true
+        security: 
+        - Auth: []
+        responses:
+          "200":
+            description: Searched posts fetched  succesfully
+            content:
+              application/json:
+                schema:
+                  
+  /quote/{quote}:
+    parameters:
+        - in: path
+          name: quote
+          schema:
+            type: integer
+          required: true
+          
+    get:
+      tags: ["Quote"]
+      summary: Get specific quote
+      security: 
+      - Auth: []
+      responses:
+        "200":
+          description: Quote fetched succesfully
+          content:
+            application/json:
+              schema:
+    delete:
+      tags: ["Quote"]
+      summary: Delete specific quote
+      security: 
+      - Auth: []
+      responses:
+        "204":
+          description: Quote deleted succesfully
+          content:
+            application/json:
+              schema:
+    post:
+      tags: ["Quote"]
+      summary: Update specific quote
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                quote_en:
+                  type: string
+                  format: only english letters and spaces
+                  default: You shall not pass
+                quote_ka:
+                  type: string
+                  format: only georgian letters and space
+                  default: შენ ვერ გახვალ
+                image:
+                  type: file
+                _method:
+                  type: string
+                  default: PATCH
+              required:
+              - quote_en
+              - quote_ka
+              - _method
+      security: 
+      - Auth: []
+      responses:
+        "204":
+          description: Quote updated succesfully
+          content:
+            application/json:
+              schema:
+                
+  /quote:
+    post:
+      tags: ["Quote"]
+      summary: Create new quote
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                quote_en:
+                  type: string
+                  required: true
+                  format: only english letters and spaces
+                  default: You shall not pass
+                quote_ka:
+                  type: string
+                  required: true
+                  format: only georgian letters and space
+                  default: შენ ვერ გახვალ
+                image:
+                  required: true
+                  type: file
+                movie_id:
+                  required: true
+                  type: integer
+                  default: 3
+              required:
+              - quote_en
+              - quote_ka
+              - image
+              - _method
+      security: 
+      - Auth: []
+      responses:
+        "201":
+          description: Quote created succesfully
+          content:
+            application/json:
+              schema:
+    get:
+      tags: ["Quote"]
+      summary: Get all quotes
+      responses:
+        "200":
+          description: Quotes fetched succesfully
+          content:
+            application/json:
+              schema:       
+  
+  /likes:
+    post:
+      tags: ["Like"]
+      summary: Like post and send notification to author
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                  required: true
+                quote_id:
+                  type: integer
+                  required: true
+                user_to_notify:
+                  type: integer
+                  required: true
+            example:
+              quote_id: 1
+              user_id: 1
+              user_to_notify: 1
+      security: 
+      - Auth: []
+      responses:
+        "201":
+          description: Like created successfully
+          content:
+            application/json:
+              schema:
+                
+  /likes/{like}:
+    delete:
+      parameters:
+        - in: path
+          name: like
+          schema:
+            type: integer
+          required: true
+      tags: ["Like"]
+      summary: Delete like
+      security: 
+      - Auth: []
+      responses:
+        "204":
+          description: Unliked succesfully
+          content:
+            application/json:
+              schema:
+
        
+  /comment:
+    post:
+      tags: ["Comment"]
+      summary: Comment post and send notification to author
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                  required: true
+                quote_id:
+                  type: integer
+                  required: true
+                user_to_notify:
+                  type: integer
+                  required: true
+                comment:
+                  type: string
+                  required: true
+            example:
+              quote_id: 1
+              user_id: 1
+              user_to_notify: 1
+              comment: 'Hey good job'
+      security: 
+      - Auth: []
+      responses:
+        "201":
+          description: Comment created successfully
+          content:
+            application/json:
+              schema:
+               
+  /comment/{comment}:
+    delete:
+      parameters:
+        - in: path
+          name: comment
+          schema:
+            type: integer
+          required: true
+      tags: ["Comment"]
+      summary: Delete comment
+      security: 
+      - Auth: []
+      responses:
+        "204":
+          description: comment deleted succesfully
+          content:
+            application/json:
+              schema:
+               
+  /notifications:
+    get:
+      tags: ["Notifications"]
+      summary: Get notifications of auth user
+      security: 
+      - Auth: []
+      responses:
+        "200":
+          description: Notifications fetched succesfully
+          content:
+            application/json:
+              schema:
+    patch:
+      tags: ["Notifications"]
+      summary: Set all or 1 notification as seen
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_to_notify:
+                  type: integer
+                  required: false
+                id:
+                  type: integer
+                  required: false
+            example:
+              user_to_notify: 1
+      security: 
+      - Auth: []
+      responses:
+        "204":
+          description: Notifications updated succesfully
+          content:
+            application/json:
+              schema:
+
+  /categories:
+    get:
+      tags: ["Categories"]
+      summary: Get all categories
+      security: 
+      - Auth: []
+      responses:
+        "200":
+          description: Categories fetched succesfully
+          content:
+            application/json:
+              schema:
+               
+  /name:
+    patch:
+      tags: ["User"]
+      summary: Edit user name
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  required: true
+                  minLength: 8
+                  maxLength: 15
+                  format: Only english lowercase letters and numbers
+            example:
+              name: gogi
+      security: 
+      - Auth: []
+      responses:
+        "204":
+          description: User name updated successfully
+          content:
+            application/json:
+              schema:
+               
+  /password:
+    patch:
+      tags: ["User"]
+      summary: Edit password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                  required: true
+                  minLength: 8
+                  maxLength: 15
+                password_confirmation:
+                  type: string
+                  required: true
+                  format: Same as password
+            example:
+              password: fghfghfghfgh
+              password_confirmation: fghfghfghfgh
+      security: 
+      - Auth: []
+      responses:
+        "204":
+          description: Password updated successfully
+          content:
+            application/json:
+              schema:
+               
+  /add-email:
+    post:
+      tags: ["User"]
+      summary: Add another email
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  required: true
+                  format: email
+                user_id:
+                  type: integer
+                  required: true
+            example:
+              email: gogi@gh.ru
+              user_id: 1
+      security: 
+      - Auth: []
+      responses:
+        "204":
+          description: Email added successfully
+          content:
+            application/json:
+              schema:
+               
+  /secondary-email:
+    get:
+      tags: ["User"]
+      summary: Get secondary emails of auth user
+      security: 
+      - Auth: []
+      responses:
+        "200":
+          description: Secondary emails fetched succesfully
+          content:
+            application/json:
+              schema:
+               
+  /make-primary:
+    post:
+      tags: ["User"]
+      summary: Make email primary
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  required: true
+                  format: email
+                verified:
+                  type: timestamp
+                  required: true
+            example:
+              email: gogi@gh.ru
+              verified: 2022-10-31 10:51:22
+      security: 
+      - Auth: []
+      responses:
+        "200":
+          description: Email set as primary
+          content:
+            application/json:
+              schema:
+                
+  /email:
+    delete:
+      tags: ["User"]
+      summary: Delete secondary email
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  required: true
+            example:
+              id: 1
+      security: 
+      - Auth: []
+      responses:
+        "204":
+          description: Email was deleted
+          content:
+            application/json:
+              schema:
+                
+  /profile-image:
+    post:
+      tags: ["User"]
+      summary: Chanfe profile image 
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  required: true
+                  type: file
+              required:
+              - image
+      security: 
+      - Auth: []
+      responses:
+        "201":
+          description: Profile picture set successfully
+          content:
+            application/json:
+              schema:
+                
+
+   

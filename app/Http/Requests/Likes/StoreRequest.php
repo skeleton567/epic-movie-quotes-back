@@ -17,6 +17,7 @@ class StoreRequest extends FormRequest
             //
             'user_id' => 'required',
             'quote_id' => 'required',
+            'user_to_notify' => 'required'
 
         ];
     }

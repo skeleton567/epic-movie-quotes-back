@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Notifications\IndexRequest;
-use App\Http\Requests\Notifications\UpdateRequest;
 use App\Http\Resources\NotificationResource;
 use App\Models\Notification;
 use Illuminate\Http\JsonResponse;
@@ -18,7 +16,7 @@ class NotificationController extends Controller
         $notifications = Notification::orderByDesc('id')->where('user_to_notify', auth()->id())->get();
         return response()->json(NotificationResource::collection($notifications), 200);
     }
-    public function update(UpdateRequest $request): JsonResponse
+    public function update(Request $request): JsonResponse
     {
         if ($request->id) {
             Notification::find($request->id)->update(['seen_by_user' => true]);
@@ -28,6 +26,6 @@ class NotificationController extends Controller
                 $notification->update(['seen_by_user' => true]);
             }
         }
-        return response()->json('Notification updated succesfully', 200);
+        return response()->json(['message' => 'Notification updated succesfully'], 204);
     }
 }

@@ -16,6 +16,7 @@ class LikeResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'quote_id' => QuoteResource::make($this->quote)->id,
             'user' => UserResource::make($this->user),
         ];
     }

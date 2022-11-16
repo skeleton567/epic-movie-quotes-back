@@ -18,6 +18,7 @@ class CommentResource extends JsonResource
             'id' => $this->id,
             'comment' => $this->comment,
             'user' => UserResource::make($this->user),
+            'quote_id' => QuoteResource::make($this->quote)->id
         ];
     }
 }

@@ -20,7 +20,7 @@ class PasswordResetController extends Controller
         );
 
         return $status === Password::RESET_LINK_SENT
-                    ? response()->json('Email sent!', 200)
+                    ? response()->json(['message' =>'Email sent!'], 200)
                     : response()->json(['error' => __($status)], 404);
     }
 
@@ -40,7 +40,7 @@ class PasswordResetController extends Controller
         );
 
         return $status === Password::PASSWORD_RESET
-                    ? response()->json('Password updated!', 200)
+                    ? response()->json(['message' => 'Password updated!'], 200)
                     : response()->json(['error' => __($status)], 404);
     }
 }

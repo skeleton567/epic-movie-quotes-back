@@ -50,7 +50,7 @@ Route::middleware(['auth:api'])->group(function () {
 
     Route::get('categories', [CategoryController::class, 'index'])->name('view.category');
     Route::get('notifications', [NotificationController::class, 'index'])->name('notiification.index');
-    Route::patch('notifications/update', [NotificationController::class, 'update'])->name('notiification.update');
+    Route::patch('notifications', [NotificationController::class, 'update'])->name('notiification.update');
 
     Route::controller(UserController::class)->group(function () {
         Route::patch('name', 'updateName')->name('name.update');
@@ -58,7 +58,7 @@ Route::middleware(['auth:api'])->group(function () {
         Route::post('add-email', 'addEmail')->name('add.email');
         Route::get('secondary-email', 'getSecondaryEmail')->name('secondary.email');
         Route::post('make-primary', 'makePrimary')->name('make.primary');
-        Route::delete('destroy-email', 'destroyEmail')->name('destroy.email');
+        Route::delete('email', 'destroyEmail')->name('destroy.email');
         Route::post('profile-image', 'storeProfileImage')->name('profile.image');
     });
 });

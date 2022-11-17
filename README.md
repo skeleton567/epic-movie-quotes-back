@@ -63,7 +63,7 @@ cp .env.example .env
 ```sh
 php artisan key:generate
 ```
-7\ After that we must configur JWT authentification:
+7\. After that we must configur JWT authentification:
 
 7.1 We need need to publish jwt config:
 ```sh

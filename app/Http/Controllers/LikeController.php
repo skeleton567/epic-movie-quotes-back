@@ -34,8 +34,9 @@ class LikeController extends Controller
     }
     public function destroy(Like $like): JsonResponse
     {
+        event(new NotificationEvent(false, LikeResource::make($like)));
         $like->delete();
 
-        return response()->json(['message' => 'Successfully unliked'], 204);
+        return response()->json(['message' => 'Successfully unliked'], 200);
     }
 }

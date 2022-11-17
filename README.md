@@ -1,66 +1,185 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<div style="display:flex; align-items: center">
+  <h1 style="position:relative; top: -6px" >Movie Quotes Upgraded</h1>
+</div>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+---
+Movie Quotes is an App where you are able to register and see, add, share, comment and like hundreds of movie quotes.
 
-## About Laravel
+#
+### Table of Contents
+* [Prerequisites](#prerequisites)
+* [Tech Stack](#tech-stack)
+* [Getting Started](#getting-started)
+* [Migrations](#migration)
+* [Development](#development)
+* [Resources](#resources)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+#
+### Prerequisites
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+* <img src="readme/assets/php.svg" width="35" style="position: relative; top: 4px" /> *PHP@8.1 and up*
+* <img src="readme/assets/mysql.png" width="35" style="position: relative; top: 4px" /> *MYSQL@8 and up*
+* <img src="readme/assets/npm.png" width="35" style="position: relative; top: 4px" /> *npm@7 and up*
+* <img src="readme/assets/composer.png" width="35" style="position: relative; top: 6px" /> *composer@2.4 and up*
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
+#
+### Tech Stack
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+* <img src="readme/assets/laravel.png" height="18" style="position: relative; top: 4px" /> [Laravel@9.x](https://laravel.com/docs/9.x) - back-end framework
+* <img src="readme/assets/spatie.png" height="19" style="position: relative; top: 4px" /> [Spatie Translatable](https://github.com/spatie/laravel-translatable) - package for translation
+* <img src="readme/assets/tailwind.png" height="19" style="position: relative; top: 4px" /> [Tailwind CSS](https://tailwindcss.com) - CSS library
+* [JWT Aath](https://laravel-jwt-auth.readthedocs.io/en/latest/) - JWT authentification package
+* [Pusher](https://pusher.com) - Real time notification package
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+#
+### Getting Started
+1\. First of all you need to clone >Movie Quotes Upgraded repository from github:
+```sh
+git clone https://github.com/RedberryInternship/guram-tsagareishvili-epic-movie-quotes-back
+```
 
-## Laravel Sponsors
+2\. Next step requires you to run *composer install* in order to install all the dependencies.
+```sh
+composer install
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+3\. after you have installed all the PHP dependencies, it's time to install all the JS dependencies:
+```sh
+npm install
+```
 
-### Premium Partners
+4\. We need to link our storage folder to public folder:
+```sh
+php artisan storage:link
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+5\. Now we need to set our env file. 
+```sh
+cp .env.example .env
+```
+6\. Next we need to generate Laravel key:
+```sh
+php artisan key:generate
+```
+7\. After that we must configur JWT authentification:
 
-## Contributing
+7.1 We need need to publish jwt config:
+```sh
+php artisan vendor:publish --provider="PHPOpenSourceSaver\JWTAuth\Providers\LaravelServiceProvider"
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+7.2 Generate jwt secret:
+```sh
+php artisan jwt:secret
+```
 
-## Code of Conduct
+7.2 Generate certificate:
+```sh
+php artisan jwt:generate-certs
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+And now you should provide **.env** file all the necessary environment variables:
 
-## Security Vulnerabilities
+#
+**MYSQL:**
+>DB_CONNECTION=mysql
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+>DB_HOST=127.0.0.1
 
-## License
+>DB_PORT=3306
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+>DB_DATABASE=*****
+
+>DB_USERNAME=*****
+
+>DB_PASSWORD=*****
+
+#
+**Pusher:**
+>ROADCAST_DRIVER=pusher
+
+>CACHE_DRIVER=file
+
+>FILESYSTEM_DISK=public
+
+>QUEUE_CONNECTION=sync
+
+>SESSION_DRIVER=file
+
+>SESSION_LIFETIME=120
+
+>PUSHER_APP_ID=*****
+
+>PUSHER_APP_KEY=*****
+
+>PUSHER_APP_SECRET=*****
+
+>PUSHER_PORT=443
+
+>PUSHER_SCHEME=https
+
+>PUSHER_APP_CLUSTER=*****
+
+#
+**App urls:**
+>VITE_API_BASE_URL=*****
+
+>BASE_URL=*****
+
+#
+**Email:**
+>MAIL_MAILER=*****
+
+>MAIL_HOST=*****
+
+>MAIL_PORT=2525
+
+>MAIL_USERNAME=*****
+
+>MAIL_PASSWORD=*****
+
+>MAIL_ENCRYPTION=*****
+
+>MAIL_FROM_ADDRESS=*****
+
+>MAIL_FROM_NAME="${APP_NAME}"
+
+##### Now, you should be good to go!
+
+#
+### Migration
+if you've completed getting started section, then migrating database if fairly simple process, just execute:
+```sh
+php artisan migrate
+```
+
+#
+### Development
+
+You can run Laravel's built-in development server by executing:
+
+```sh
+  php artisan serve
+```
+
+For Tailiwind CSS to work you must also run:
+
+```sh
+  npm run dev
+```
+
+#
+### Resources
+
+1\. Database structure in DrawSQL:
+```sh
+https://drawsql.app/teams/skeleton-team/diagrams/movie-quotes-upgraded
+```
+<img src="readme/assets/drawsql.png" width="100%" height="500" style="position: relative; top: 5px" />
+
+2\. Swagger documentation:
+```sh
+/swagger
+```

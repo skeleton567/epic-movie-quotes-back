@@ -26,6 +26,6 @@ class NotificationController extends Controller
                 $notification->update(['seen_by_user' => true]);
             }
         }
-        return response()->json(['message' => 'Notification updated succesfully'], 204);
+        return response()->json(['message' => 'Notification updated succesfully'], 200);
     }
 }

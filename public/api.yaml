@@ -55,7 +55,7 @@ paths:
               password: fghfghfghfgh
               password_confirmation: fghfghfghfgh
       responses:
-        "201":
+        "200":
           description: User created succesfully
           content:
             application/json:
@@ -338,7 +338,7 @@ paths:
       security: 
       - Auth: []
       responses:
-        "204":
+        "200":
           description: Movie deleted succesfully
           content:
             application/json:
@@ -422,7 +422,7 @@ paths:
       security: 
       - Auth: []
       responses:
-        "204":
+        "200":
           description: Movie updated succesfully
           content:
             application/json:
@@ -494,7 +494,7 @@ paths:
       security: 
       - Auth: []
       responses:
-        "204":
+        "200":
           description: Quote deleted succesfully
           content:
             application/json:
@@ -529,7 +529,7 @@ paths:
       security: 
       - Auth: []
       responses:
-        "204":
+        "200":
           description: Quote updated succesfully
           content:
             application/json:
@@ -632,7 +632,7 @@ paths:
       security: 
       - Auth: []
       responses:
-        "204":
+        "200":
           description: Unliked succesfully
           content:
             application/json:
@@ -689,7 +689,7 @@ paths:
       security: 
       - Auth: []
       responses:
-        "204":
+        "200":
           description: comment deleted succesfully
           content:
             application/json:
@@ -728,7 +728,7 @@ paths:
       security: 
       - Auth: []
       responses:
-        "204":
+        "200":
           description: Notifications updated succesfully
           content:
             application/json:
@@ -769,7 +769,7 @@ paths:
       security: 
       - Auth: []
       responses:
-        "204":
+        "200":
           description: User name updated successfully
           content:
             application/json:
@@ -801,7 +801,7 @@ paths:
       security: 
       - Auth: []
       responses:
-        "204":
+        "200":
           description: Password updated successfully
           content:
             application/json:
@@ -831,7 +831,7 @@ paths:
       security: 
       - Auth: []
       responses:
-        "204":
+        "200":
           description: Email added successfully
           content:
             application/json:
@@ -899,7 +899,7 @@ paths:
       security: 
       - Auth: []
       responses:
-        "204":
+        "200":
           description: Email was deleted
           content:
             application/json:

@@ -23,13 +23,13 @@ class UserController extends Controller
         $user = User::find(auth()->id());
         $user->update(['name' => $request->name]);
 
-        return response()->json(['message' => 'User updated successfully'], 204);
+        return response()->json(['message' => 'User updated successfully'], 200);
     }
     public function addEmail(AddEmailRequest $request): JsonResponse
     {
         $email = SecondaryEmail::create($request->validated());
         event(new Registered($email));
-        return response()->json(['message' => 'User updated successfully'], 204);
+        return response()->json(['message' => 'User updated successfully'], 200);
     }
     public function getSecondaryEmail(): JsonResponse
     {
@@ -55,7 +55,7 @@ class UserController extends Controller
         $secondaryEmail = SecondaryEmail::find($request->id);
         $secondaryEmail->delete();
 
-        return response()->json(['message' => 'Secondary email deleted successfully'], 204);
+        return response()->json(['message' => 'Secondary email deleted successfully'], 200);
     }
     public function updatePassword(UpdatePasswordRequest $request): JsonResponse
     {
@@ -66,7 +66,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return response()->json(['message' => 'Password updated successfully'], 204);
+        return response()->json(['message' => 'Password updated successfully'], 200);
     }
     public function storeProfileImage(StoreProfilePictureRequest $request): JsonResponse
     {

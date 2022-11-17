@@ -31,8 +31,9 @@ class CommentController extends Controller
     }
     public function destroy(Comment $comment): JsonResponse
     {
+        event(new NotificationEvent(false, CommentResource::make($comment)));
         $comment->delete();
 
-        return response()->json(['message' => 'Comment successfully deleted'], 204);
+        return response()->json(['message' => 'Comment successfully deleted'], 200);
     }
 }

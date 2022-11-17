@@ -87,11 +87,11 @@ class MovieController extends Controller
             }
             $movie->categories()->sync($ids);
         }
-        return response()->json(['message' => 'Movie updated succesfully'], 204);
+        return response()->json(['message' => 'Movie updated succesfully'], 200);
     }
     public function destroy(Movie $movie): JsonResponse
     {
         $movie->delete();
-        return response()->json(['message' => 'Movie deleted succesfully'], 204);
+        return response()->json(['message' => 'Movie deleted succesfully'], 200);
     }
 }

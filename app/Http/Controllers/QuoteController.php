@@ -60,12 +60,12 @@ class QuoteController extends Controller
             'ka' => $request->quote_ka,
         ]);
         $quote->update($attributes);
-        return response()->json(['message' => 'Quote updated succesfully'], 204);
+        return response()->json(['message' => 'Quote updated succesfully'], 200);
     }
     public function destroy(Quote $quote): JsonResponse
     {
         $quote->delete();
-        return response()->json(['message' => 'Quote deleted succesfully'], 204);
+        return response()->json(['message' => 'Quote deleted succesfully'], 200);
     }
     public function searchPost(SearchRequest $request): JsonResponse
     {

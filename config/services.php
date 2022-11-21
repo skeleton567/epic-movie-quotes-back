@@ -33,7 +33,6 @@ return [
     'google' => [
         'client_id' => env('GOOGLE_CLIENT_ID'),
         'client_secret' => env('GOOGLE_CLIENT_SECRET'),
-        'redirect' => 'localhost::800',
+        'redirect' => env('VITE_API_BASE_URL'),
     ],
-
 ];

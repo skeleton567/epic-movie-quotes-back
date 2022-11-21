@@ -21,10 +21,7 @@ class NotificationController extends Controller
         if ($request->id) {
             Notification::find($request->id)->update(['seen_by_user' => true]);
         } else {
-            $notifications = Notification::where('user_to_notify', $request->user_to_notify)->where('seen_by_user', false)->get();
-            foreach ($notifications as $notification) {
-                $notification->update(['seen_by_user' => true]);
-            }
+            Notification::where('user_to_notify', $request->user_to_notify)->where('seen_by_user', false)->update(['seen_by_user' => true]);
         }
         return response()->json(['message' => 'Notification updated succesfully'], 200);
     }

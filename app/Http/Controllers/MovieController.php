@@ -6,7 +6,8 @@ use App\Http\Requests\Movie\StoreRequest;
 use App\Http\Requests\Movie\UpdateRequest;
 use App\Http\Resources\MovieResource;
 use App\Models\Movie;
-use App\Models\Quote;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -34,12 +35,7 @@ class MovieController extends Controller
             'en' => $request->description_en,
             'ka' => $request->description_ka,
         ]);
-        if ($request->categories) {
-            $categories = $request->categories;
-            foreach ($categories as $category) {
-                $movie->categories()->attach($category->id);
-            }
-        }
+        $this->syncCategories($movie, $request->categories);
         $movie->save();
         return response()->json(['message' => 'Movie created successfully'], 201);
     }
@@ -79,19 +75,23 @@ class MovieController extends Controller
             'ka' => $request->description_ka,
         ]);
         $movie->update($attributes);
-        if ($request->categories) {
-            $categories = $request->categories;
-            $ids = [];
-            foreach ($categories as $category) {
-                array_push($ids, $category->id);
-            }
-            $movie->categories()->sync($ids);
-        }
+        $this->syncCategories($movie, $request->categories);
         return response()->json(['message' => 'Movie updated succesfully'], 200);
     }
     public function destroy(Movie $movie): JsonResponse
     {
         $movie->delete();
         return response()->json(['message' => 'Movie deleted succesfully'], 200);
+    }
+    private function syncCategories(Model $movie, string $categories)
+    {
+        if ($categories) {
+            $ids = [];
+            $categories = json_decode($categories);
+            foreach ($categories as $category) {
+                array_push($ids, $category->id);
+            }
+            $movie->categories()->sync($ids);
+        }
     }
 }

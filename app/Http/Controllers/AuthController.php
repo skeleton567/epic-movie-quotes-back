@@ -14,6 +14,8 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\Events\Verified;
 use Laravel\Socialite\Facades\Socialite;
+use Carbon\Carbon;
+use Firebase\JWT\JWT;
 
 class AuthController extends Controller
 {
@@ -22,30 +24,19 @@ class AuthController extends Controller
     {
         $user = User::create($request->validated());
         event(new Registered($user));
-        $token = auth()->login($user);
-        return $this->respondWithToken($token);
+        $cookie = auth()->login($user);
+        return response()->json('success', 200)->withCookie($cookie);
     }
 
     public function login(LoginRequest $request): JsonResponse
     {
-        $credentials = $request->validated();
+        $cookie  = auth()->attempt($request->validated());
 
-        if (filter_var($credentials['name'], FILTER_VALIDATE_EMAIL)) {
-            $credentials['email'] = $credentials['name'];
-            unset($credentials['name']);
-        }
-        if ($request->has('remember')) {
-            $time = 6000;
-            $token = auth()->setTTL($time)->attempt($credentials);
-        } else {
-            $time = 60;
-            $token = auth()->attempt($credentials);
-        }
-
-        if (!$token) {
+        if (!$cookie) {
             return response()->json($this->assemble_erorr(), 404);
         }
-        return $this->respondWithToken($token, $time);
+
+        return response()->json('success', 200)->withCookie($cookie);
     }
 
     public function googleLogin(GoogleLoginRequest $request): JsonResponse
@@ -59,8 +50,8 @@ class AuthController extends Controller
             $user->google_auth = true;
             $user->markEmailAsVerified();
         }
-        $token = auth()->login($user);
-        return $this->respondWithToken($token);
+        $cookie = auth()->login($user);
+        return response()->json('success', 200)->withCookie($cookie);
     }
 
     public function verify(Request $request): JsonResponse
@@ -94,29 +85,24 @@ class AuthController extends Controller
 
     public function user(): JsonResponse
     {
+        if (!request()->cookie('access_token')) {
+            throw new \ErrorException('not logged in');
+        }
         return response()->json(auth()->user(), 200);
     }
 
     public function logout(): JsonResponse
     {
-        auth()->logout();
+        $cookie = cookie("access_token", '', 0, '/', config('auth.front_end_top_level_domain'), true, true, false, 'Strict');
 
-        return response()->json(['message' => 'Successfully logged out']);
+        return response()->json(['message' => 'Successfully logged out'])->withCookie($cookie);
     }
 
-    protected function respondWithToken(string $token, int  $time = 60): JsonResponse
-    {
-        return response()->json([
-            'access_token' => $token,
-            'token_type'   => 'bearer',
-            'expires_in'   => auth()->factory()->getTTL() * $time,
-        ]);
-    }
     private function assemble_erorr()
     {
-        return ['errors' => ['name' => [[
+        return ['errors' => [
             'ka' => __('validation.incorect_credentians', ['attribute' => 'სახელი'], 'ka'),
             'en' => __('validation.incorect_credentians', ['attribute' => 'name'], 'en')
-            ]]]];
+         ]];
     }
 }

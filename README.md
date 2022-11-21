@@ -155,6 +155,11 @@ if you've completed getting started section, then migrating database if fairly s
 php artisan migrate
 ```
 
+Once migration is complete we should seed database with our categories:
+```sh
+php artisan db:seed --class=CategorySeeder
+```
+
 #
 ### Development
 

@@ -19,9 +19,9 @@ class QuoteFactory extends Factory
     {
         return [
             //
+            'movie_id' => Movie::factory(),
             'quote' => fake()->unique()->sentence(),
             'user_id' => 1,
-            'movie_id' => Movie::factory(),
             'image' => fake()->word(),
         ];
     }

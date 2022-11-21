@@ -14,7 +14,6 @@ class UpdatePasswordRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required',
             'password' =>'required|min:8|max:15|confirmed|regex:/^[a-z0-9]*$/',
         ];
     }

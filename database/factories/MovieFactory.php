@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,7 +20,7 @@ class MovieFactory extends Factory
         return [
             //
             'title' => fake()->unique()->word(),
-            'user_id' => 1
+            'user_id' => User::factory()
         ];
     }
 }

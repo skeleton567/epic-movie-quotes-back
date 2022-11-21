@@ -8,6 +8,7 @@ use App\Http\Controllers\MovieController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\QuoteController;
+use App\Http\Controllers\SwaggerController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,10 +23,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth:api'])->group(function () {
+Route::middleware(['jwt.auth'])->group(function () {
     Route::controller(AuthController::class)->group(function () {
         Route::post('logout', 'logout')->name('logout');
-        Route::post('authorized-user', 'user')->name('auth.user');
     });
     Route::controller(MovieController::class)->group(function () {
         Route::post('movies', 'store')->name('movie.store');
@@ -69,6 +69,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('google-login', 'googleLogin')->name('google.login');
     Route::get('/email/verify/{id}/{hash}', 'verify')->name('verification.verify');
     Route::get('/email/verify/{id}/{hash}', 'secondaryVerify')->name('secondary.verify');
+    Route::post('authorized-user', 'user')->name('auth.user');
 });
 
 Route::get('quote', [QuoteController::class, 'index'])->name('view.quote');

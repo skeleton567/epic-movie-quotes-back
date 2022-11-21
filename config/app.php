@@ -212,6 +212,4 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 
-    'available_locales' => ['en', 'ka'],
-
 ];

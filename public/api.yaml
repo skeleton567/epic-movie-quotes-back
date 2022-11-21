@@ -82,7 +82,7 @@ paths:
                   minLength: 8
                   maxLength: 15
             example:
-              name: gela
+              name: gela@redberry.ge
               password: fghfghfghfgh
       responses:
         "200":

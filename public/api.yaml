@@ -109,8 +109,6 @@ paths:
     post:
       tags: ["Authentification"]
       summary: Get authorized user
-      security: 
-       - Auth: []
       responses:
         "200":
           description: Fetched authorized user succesfully
@@ -200,6 +198,50 @@ paths:
           content:
             application/json:
               schema:
+                
+  /email/verify/{id}/{hash}:
+    get:
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: hash
+          schema:
+            type: string
+          required: true
+      tags: ["Authentification"]
+      summary: Verify user email
+      responses:
+        "200":
+          description: Email verified succesfully
+          content:
+            application/json:
+              schema:
+                
+  /secondary-email/verify/{id}/{hash}:
+    get:
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: hash
+          schema:
+            type: string
+          required: true
+      tags: ["Authentification"]
+      summary: Verify secondary email
+      responses:
+        "200":
+          description: Email verified successfully
+          content:
+            application/json:
+              schema:
 
   
   /movies:
@@ -255,17 +297,21 @@ paths:
                   required: true
                   type: file
                 categories:
-                  required: false
                   type: array
-                  items: 
+                  items:
+                   type: array
+                   items:
                     type: object
                     properties:
                       id:
                         type: integer
+                        default: 1
                       category_ka:
                         type: string
+                        default: მიუზიკლი
                       category_en:
                         type: string
+                        default: Musical
               required:
                 - title_en
                 - title_ka
@@ -275,7 +321,6 @@ paths:
                 - description_ka
                 - release_year
                 - budget
-                - _method
                 - image
       security: 
        - Auth: []
@@ -398,17 +443,21 @@ paths:
                   type: string
                   default: PATCH
                 categories:
-                  required: false
                   type: array
-                  items: 
+                  items:
+                   type: array
+                   items:
                     type: object
                     properties:
                       id:
                         type: integer
+                        default: 1
                       category_ka:
                         type: string
+                        default: მიუზიკლი
                       category_en:
                         type: string
+                        default: Musical
               required:
                 - title_en
                 - title_ka
@@ -548,26 +597,21 @@ paths:
               properties:
                 quote_en:
                   type: string
-                  required: true
                   format: only english letters and spaces
                   default: You shall not pass
                 quote_ka:
                   type: string
-                  required: true
                   format: only georgian letters and space
                   default: შენ ვერ გახვალ
                 image:
-                  required: true
                   type: file
                 movie_id:
-                  required: true
                   type: integer
                   default: 3
               required:
               - quote_en
               - quote_ka
               - image
-              - _method
       security: 
       - Auth: []
       responses:

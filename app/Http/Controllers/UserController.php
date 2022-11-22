@@ -62,7 +62,7 @@ class UserController extends Controller
         $user = User::find(auth()->id());
         $user->forceFill([
                     'password' => $request->password
-                ])->setRememberToken(null);
+                ]);
 
         $user->save();
 

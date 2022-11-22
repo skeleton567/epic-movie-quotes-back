@@ -33,7 +33,7 @@ class QuoteController extends Controller
         $quote = Quote::create([
             'movie_id' => $request->validated()['movie_id'],
             'image' =>  $request->file('image')->store('images'),
-            'user_id' => auth()->user()->id
+            'user_id' => auth()->id()
         ]);
         $quote->setTranslations('quote', [
             'en' => $request->quote_en,

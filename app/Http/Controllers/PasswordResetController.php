@@ -31,7 +31,7 @@ class PasswordResetController extends Controller
             function ($user, $password) {
                 $user->forceFill([
                     'password' => $password
-                ])->setRememberToken(null);
+                ]);
 
                 $user->save();
 

@@ -12,8 +12,6 @@ use Firebase\JWT\Key;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\UserProvider;
-use GuzzleHttp\json_decode;
-use phpDocumentor\Reflection\Types\Array_;
 use Illuminate\Contracts\Auth\Authenticatable;
 
 class JwtGuard implements Guard
@@ -64,18 +62,6 @@ class JwtGuard implements Guard
         if (! is_null($this->user)) {
             return $this->user;
         }
-    }
-
-    /**
-     * Get the JSON params from the current request
-     *
-     * @return string
-     */
-    public function getJsonParams()
-    {
-        $jsondata = $this->request->query('jsondata');
-
-        return (!empty($jsondata) ? json_decode($jsondata, true) : null);
     }
 
     /**
@@ -139,6 +125,7 @@ class JwtGuard implements Guard
         }
         return false;
     }
+
     public function getUser()
     {
         try {
@@ -156,6 +143,7 @@ class JwtGuard implements Guard
             return null;
         }
     }
+
     public function attempt($credentials)
     {
         if (filter_var($credentials['name'], FILTER_VALIDATE_EMAIL)) {
@@ -168,28 +156,26 @@ class JwtGuard implements Guard
             $time = 60;
         }
 
-        $authenticated = $this->validate($credentials);
-
-        if (!$authenticated) {
+        if (!$this->validate($credentials)) {
             return null;
         }
-
-        $payload = [
-            'exp' => Carbon::now()->addMinutes($time)->timestamp,
-            'uid' => $this->id(),
-        ];
-        $jwt = JWT::encode($payload, config('auth.jwt_secret'), 'HS256');
+        $jwt =  $this->generateToken($time, $this->id());
         return cookie("access_token", $jwt, $time, '/', config('auth.front_end_top_level_domain'), true, true, false, 'Strict');
     }
 
     public function login(Authenticatable $user)
     {
-        $payload = [
-            'exp' => Carbon::now()->addMinutes(60)->timestamp,
-            'uid' => $user->id,
-        ];
-        $jwt = JWT::encode($payload, config('auth.jwt_secret'), 'HS256');
+        $jwt =  $this->generateToken(60, $user->id);
         $this->setUser($user);
         return cookie("access_token", $jwt, 60, '/', config('auth.front_end_top_level_domain'), true, true, false, 'Strict');
+    }
+
+    private function generateToken(int $time = 60, int $id)
+    {
+        $payload = [
+            'exp' => Carbon::now()->addMinutes($time)->timestamp,
+            'uid' => $id,
+        ];
+        return JWT::encode($payload, config('auth.jwt_secret'), 'HS256');
     }
 }

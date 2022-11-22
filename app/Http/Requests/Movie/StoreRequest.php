@@ -16,12 +16,12 @@ class StoreRequest extends FormRequest
     {
         return [
             'title_en' => 'required|regex:/^[a-zA-Z0-9\s]+$/',
-            'title_ka' => 'required|regex:/^[აბგდევზთიკლმნოპჟრსტუფქღყშჩცძწჭხჯჰ.,!?\s]*$/',
+            'title_ka' => 'required|regex:/^[ა-ჰ.,!?\s]*$/',
             'director_en' => 'required|regex:/^[a-zA-Z0-9\s]+$/',
-            'director_ka' => 'required|regex:/^[აბგდევზთიკლმნოპჟრსტუფქღყშჩცძწჭხჯჰ.,!?\s]*$/',
+            'director_ka' => 'required|regex:/^[ა-ჰ.,!?\s]*$/',
             'release_year' => 'required',
             'budget' => 'required',
-            'description_ka' => 'required|regex:/^[აბგდევზთიკლმნოპჟრსტუფქღყშჩცძწჭხჯჰ.,!?\s]*$/',
+            'description_ka' => 'required|regex:/^[ა-ჰ.,!?\s]*$/',
             'description_en' => 'required|regex:/^[a-zA-Z0-9\s]+$/',
             'image' => 'image'
         ];

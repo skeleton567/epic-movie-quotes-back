@@ -35,9 +35,11 @@ class MovieController extends Controller
             'en' => $request->description_en,
             'ka' => $request->description_ka,
         ]);
-        $this->syncCategories($movie, $request->categories);
+        if ($request->categories) {
+            $this->syncCategories($movie, $request->categories);
+        }
         $movie->save();
-        return response()->json(['message' => 'Movie created successfully'], 201);
+        return response()->json(['message' => 'Movie created succesfully'], 201);
     }
     public function show(): JsonResponse
     {
@@ -75,7 +77,9 @@ class MovieController extends Controller
             'ka' => $request->description_ka,
         ]);
         $movie->update($attributes);
-        $this->syncCategories($movie, $request->categories);
+        if ($request->categories) {
+            $this->syncCategories($movie, $request->categories);
+        }
         return response()->json(['message' => 'Movie updated succesfully'], 200);
     }
     public function destroy(Movie $movie): JsonResponse
@@ -85,13 +89,12 @@ class MovieController extends Controller
     }
     private function syncCategories(Model $movie, string $categories)
     {
-        if ($categories) {
-            $ids = [];
-            $categories = json_decode($categories);
-            foreach ($categories as $category) {
-                array_push($ids, $category->id);
-            }
-            $movie->categories()->sync($ids);
+        $ids = [];
+        $categories = json_decode($categories);
+        ;
+        foreach ($categories as $category) {
+            array_push($ids, $category->id);
         }
+        $movie->categories()->sync($ids);
     }
 }

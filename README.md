@@ -29,7 +29,7 @@ Movie Quotes is an App where you are able to register and see, add, share, comme
 * <img src="readme/assets/laravel.png" height="18" style="position: relative; top: 4px" /> [Laravel@9.x](https://laravel.com/docs/9.x) - back-end framework
 * <img src="readme/assets/spatie.png" height="19" style="position: relative; top: 4px" /> [Spatie Translatable](https://github.com/spatie/laravel-translatable) - package for translation
 * <img src="readme/assets/tailwind.png" height="19" style="position: relative; top: 4px" /> [Tailwind CSS](https://tailwindcss.com) - CSS library
-* [JWT Aath](https://laravel-jwt-auth.readthedocs.io/en/latest/) - JWT authentification package
+* [PHP-JWT](https://github.com/firebase/php-jwt) - JWT token package
 * [Pusher](https://pusher.com) - Real time notification package
 
 
@@ -63,21 +63,10 @@ cp .env.example .env
 ```sh
 php artisan key:generate
 ```
-7\. After that we must configur JWT authentification:
 
-7.1 We need need to publish jwt config:
-```sh
-php artisan vendor:publish --provider="PHPOpenSourceSaver\JWTAuth\Providers\LaravelServiceProvider"
-```
-
-7.2 Generate jwt secret:
+7\. After that we must generate jwt secret:
 ```sh
 php artisan jwt:secret
-```
-
-7.2 Generate certificate:
-```sh
-php artisan jwt:generate-certs
 ```
 
 And now you should provide **.env** file all the necessary environment variables:
@@ -127,6 +116,8 @@ And now you should provide **.env** file all the necessary environment variables
 >VITE_API_BASE_URL=*****
 
 >BASE_URL=*****
+
+>FRONT_TOP_LEVEL_DOMAIN=*****
 
 #
 **Email:**

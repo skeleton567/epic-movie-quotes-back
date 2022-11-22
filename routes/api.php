@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['jwt.auth'])->group(function () {
+Route::middleware(["jwt.auth"])->group(function () {
     Route::controller(AuthController::class)->group(function () {
         Route::post('logout', 'logout')->name('logout');
     });
@@ -68,7 +68,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login')->name('login');
     Route::post('google-login', 'googleLogin')->name('google.login');
     Route::get('/email/verify/{id}/{hash}', 'verify')->name('verification.verify');
-    Route::get('/email/verify/{id}/{hash}', 'secondaryVerify')->name('secondary.verify');
+    Route::get('/secondary-email/verify/{id}/{hash}', 'secondaryVerify')->name('secondary.verify');
     Route::post('authorized-user', 'user')->name('auth.user');
 });
 

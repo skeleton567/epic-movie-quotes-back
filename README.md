@@ -119,6 +119,8 @@ And now you should provide **.env** file all the necessary environment variables
 
 >FRONT_TOP_LEVEL_DOMAIN=*****
 
+>FRONT_TOP_LEVEL_DOMAIN=*****
+
 #
 **Email:**
 >MAIL_MAILER=*****

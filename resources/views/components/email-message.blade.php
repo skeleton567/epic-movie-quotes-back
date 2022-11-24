@@ -15,7 +15,7 @@
             height: 100vh;
             margin: 0;
             padding: 79px 194px;
-            background: linear-gradient(187.16deg, #181623 0.07%, #191725 51.65%, #0D0B14 98.75%);
+            background: black;
             }
             img{
                 width: 22px;
@@ -75,7 +75,7 @@
             width: 100%;
             margin: 0;
             padding: 50px 35px;
-            background: linear-gradient(187.16deg, #181623 0.07%, #191725 51.65%, #0D0B14 98.75%);
+            background: black;
             max-width: 80vw;
             }
             img{

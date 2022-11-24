@@ -51,10 +51,6 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $this->attributes['password'] = bcrypt($password);
     }
-    public function setNameAttribute($name)
-    {
-        $this->attributes['name'] = ucwords($name);
-    }
     public function sendEmailVerificationNotification()
     {
         $this->notify(new VerifyEmail());

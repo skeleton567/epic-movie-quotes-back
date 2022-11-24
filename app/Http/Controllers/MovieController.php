@@ -91,7 +91,6 @@ class MovieController extends Controller
     {
         $ids = [];
         $categories = json_decode($categories);
-        ;
         foreach ($categories as $category) {
             array_push($ids, $category->id);
         }

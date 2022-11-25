@@ -9,18 +9,18 @@
     <title>Email</title>
         <style>
             @media only screen and (min-width: 600px) {
-                body {
+                #body {
             box-sizing: border-box;
             width: 100% !important;
             height: 100vh;
             margin: 0;
             padding: 79px 194px;
-            background: black;
+            background-color: black;
             }
             img{
                 width: 22px;
                 height: 20px;
-                margin-left: 49%;
+                margin-left: 48%;
             }
             h1 {
                 margin-bottom: 73px; 
@@ -45,7 +45,6 @@
             color: #FFFFFF;
             border: none;
             font: inherit;
-            cursor: pointer;
             outline: inherit;
             margin-top: 27px;
             margin-bottom: 35px;
@@ -70,18 +69,17 @@
             }
         }
             @media only screen and (max-width: 500px) {
-                body {
+                #body {
             box-sizing: border-box;
             width: 100%;
             margin: 0;
             padding: 50px 35px;
-            background: black;
-            max-width: 80vw;
+            background-color: black;
             }
             img{
                 width: 22px;
                 height: 20px;
-                margin-left: 52%;
+                margin-left: 51%;
             }
             h1 {
                 margin-bottom: 26px; 
@@ -106,7 +104,6 @@
             color: #FFFFFF;
             border: none;
             font: inherit;
-            cursor: pointer;
             outline: inherit;
             margin-top: 8px;
             margin-bottom: 12px;
@@ -133,7 +130,7 @@
             }
         </style>
     </head>
-    <body>
+    <body id=body>
         <img src="https://i.postimg.cc/8JL0bT3L/Vector.png" class="dialog" alt="dialog">
         <h1>MOVIE QUOTES</h1>
 

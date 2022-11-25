@@ -73,19 +73,23 @@ class QuoteController extends Controller
             $search = ltrim($request->search, $request->search[0]);
             $quote = QuotePostResource::collection(Quote::with(['movie'])
             ->whereHas('movie', function ($movie) use ($search) {
-                $movie->where(DB::raw('lower(title)'), 'LIKE', "%". strtolower($search)."%");
+                $movie->where(DB::raw('lower(title)'), 'LIKE', "%". strtolower($search)."%")
+                ->orWhere('title->ka', 'LIKE', "%{$search}%");
             })->orderByDesc('id')->simplePaginate(5));
         } elseif (strpos($request->search, '#') === 0) {
             $search = ltrim($request->search, $request->search[0]);
             $quote = QuotePostResource::collection(Quote::query()
             ->where(DB::raw('lower(quote)'), 'LIKE', "%". strtolower($search)."%")
+            ->orWhere('quote->ka', 'LIKE', "%{$search}%")
             ->orderByDesc('id')->simplePaginate(5));
         } else {
             $quote = QuotePostResource::collection(Quote::with(['movie'])
             ->whereHas('movie', function ($movie) use ($request) {
-                $movie->where(DB::raw('lower(title)'), 'LIKE', "%". strtolower($request->search)."%");
+                $movie->where(DB::raw('lower(title)'), 'LIKE', "%". strtolower($request->search)."%")
+                ->orWhere('title->ka', 'LIKE', "%{$request->search}%");
             })
             ->orWhere(DB::raw('lower(quote)'), 'LIKE', "%". strtolower($request->search)."%")
+            ->orWhere('quote->ka', 'LIKE', "%{$request->search}%")
             ->orderByDesc('id')->simplePaginate(5));
         }
 

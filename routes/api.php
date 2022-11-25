@@ -75,5 +75,5 @@ Route::controller(AuthController::class)->group(function () {
 Route::get('quote', [QuoteController::class, 'index'])->name('view.quote');
 Route::controller(PasswordResetController::class)->group(function () {
     Route::post('/forgot-password', 'forgotPassword')->name('password.email');
-    Route::post('/reset-password', 'passwordUpdate')->name('password.update');
+    Route::post('/reset-password', 'passwordUpdate')->name('password.reset');
 });

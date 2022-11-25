@@ -7,7 +7,7 @@ info:
 servers:
   - url: http://localhost:8000/api
     description: local server
-  - url: http://producation.app/api
+  - url: https://movie-quotes-back.guram-tsagareishvili.redberryinternship.ge/api
     description: production server
 
 components:

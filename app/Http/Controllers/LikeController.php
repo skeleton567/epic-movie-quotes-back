@@ -20,9 +20,14 @@ class LikeController extends Controller
     public function store(StoreRequest $request): JsonResponse
     {
         DB::transaction(function () use ($request) {
-            $like = LikeResource::make(Like::create($request->validated()));
+            $like = LikeResource::make(Like::create([
+                'user_id' => auth()->id(),
+                'user_to_notify' => $request->user_to_notify,
+                "quote_id" => $request->quote_id
+            ]));
+
             $notification = Notification::create([
-                'user_id' => $request->user_id,
+                'user_id' => auth()->id(),
                 'user_to_notify' => $request->user_to_notify,
                 'type' => 'like',
                 'seen_by_user' => false

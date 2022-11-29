@@ -1,0 +1,148 @@
+paths:
+    /post:
+      get:
+        tags: ["Quote"]
+        summary: Get all posts. Five on each page
+        parameters:
+          - $ref: "../parameters/parameters.yaml#/parameters/page"
+        security: 
+        - Auth: []
+        responses:
+          "200":
+             $ref: "../responses/quotes.yaml#/components/200"
+          "422":
+           $ref: "../common.yaml#/components/responses/422"  
+          "401":
+            $ref: "../common.yaml#/components/responses/401" 
+                  
+    /search-post:
+        get:
+          tags: ["Quote"]
+          summary: Search movies with @, and quotes - '#'. Five on each page
+          parameters:
+          - $ref: "../parameters/parameters.yaml#/parameters/page"
+          - in: query
+            name: search
+            schema:
+              type: string
+              required: true
+              default: You sahall not pass
+          security: 
+          - Auth: []
+          responses:
+            "200":
+              $ref: "../responses/quotes.yaml#/components/200"
+            "422":
+              $ref: "../common.yaml#/components/responses/422"  
+            "401":
+              $ref: "../common.yaml#/components/responses/401" 
+
+    /quote-crud:            
+      get:
+        parameters:
+        - $ref: "../parameters/parameters.yaml#/parameters/quote_id"
+        tags: ["Quote"]
+        summary: Get specific quote
+        security: 
+        - Auth: []
+        responses:
+          "200":
+            $ref: "../responses/quotes.yaml#/components/200"
+          "422":
+            $ref: "../common.yaml#/components/responses/422"  
+          "401":
+            $ref: "../common.yaml#/components/responses/401" 
+
+      delete:
+        parameters:
+        - $ref: "../parameters/parameters.yaml#/parameters/quote_id"
+        tags: ["Quote"]
+        summary: Delete specific quote
+        security: 
+        - Auth: []
+        responses:
+          "200":
+            $ref: "../common.yaml#/components/responses/200"
+          "401":
+            $ref: "../common.yaml#/components/responses/401"
+      post:
+        parameters:
+        - $ref: "../parameters/parameters.yaml#/parameters/quote_id"
+        tags: ["Quote"]
+        summary: Update specific quote
+        requestBody:
+          required: true
+          content:
+            multipart/form-data:
+              schema:
+                type: object
+                properties:
+                  quote_en:
+                    $ref: "../schemas/quotes.yaml#/components/quote_en"
+                  quote_ka:
+                    $ref: "../schemas/quotes.yaml#/components/quote_ka"
+                  image:
+                    type: file
+                  _method:
+                    type: string
+                    default: PATCH
+                  user_id:
+                     $ref: "../schemas/auth.yaml#/components/id"
+                required:
+                - quote_en
+                - quote_ka
+                - _method
+                - user_id
+        security: 
+        - Auth: []
+        responses:
+          "201":
+            $ref: "../common.yaml#/components/responses/201"
+          "422":
+            $ref: "../common.yaml#/components/responses/422"  
+          "401":
+            $ref: "../common.yaml#/components/responses/401"
+                  
+    /quote:
+      post:
+        tags: ["Quote"]
+        summary: Create new quote
+        requestBody:
+          required: true
+          content:
+            multipart/form-data:
+              schema:
+                type: object
+                properties:
+                  quote_en:
+                    $ref: "../schemas/quotes.yaml#/components/quote_en"
+                  quote_ka:
+                    $ref: "../schemas/quotes.yaml#/components/quote_ka"
+                  image:
+                    type: file
+                  movie_id:
+                    $ref: "../schemas/auth.yaml#/components/id"
+                required:
+                - quote_en
+                - quote_ka
+                - image
+        security: 
+        - Auth: []
+        responses:
+          "201":
+            $ref: "../common.yaml#/components/responses/201"
+          "422":
+            $ref: "../common.yaml#/components/responses/422"  
+          "401":
+            $ref: "../common.yaml#/components/responses/401"
+
+      get:
+        tags: ["Quote"]
+        summary: Get all quotes
+        responses:
+          "200":
+            $ref: "../responses/quotes.yaml#/components/all-quotes"
+          "422":
+            $ref: "../common.yaml#/components/responses/422"  
+          "401":
+            $ref: "../common.yaml#/components/responses/401"

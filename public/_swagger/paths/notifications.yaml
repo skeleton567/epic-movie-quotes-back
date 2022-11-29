@@ -1,0 +1,39 @@
+paths:
+  /notifications:
+    get:
+      tags: ["Notifications"]
+      summary: Get notifications of auth user
+      security: 
+      - Auth: []
+      responses:
+        "200":
+          $ref: "../responses/notifications.yaml#/components/200"
+        "401":
+          $ref: "../common.yaml#/components/responses/401" 
+              
+    patch:
+      tags: ["Notifications"]
+      summary: Set all or 1 notification as seen
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_to_notify:
+                  type: integer
+                  required: false
+                id:
+                  type: integer
+                  required: false
+            example:
+              user_to_notify: 1
+      security: 
+      - Auth: []
+      responses:
+        "200":
+          $ref: "../common.yaml#/components/responses/200"
+        "401":
+          $ref: "../common.yaml#/components/responses/401"
+  

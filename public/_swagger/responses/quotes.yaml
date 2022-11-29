@@ -1,0 +1,93 @@
+components:
+  "200":
+    description: OK
+    content:
+       application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                $ref: "../schemas/auth.yaml#/components/id"
+              image:
+                $ref: "../schemas/movies.yaml#/components/image"
+              quote:
+                type: object
+                properties:
+                  en:
+                    $ref: "../schemas/quotes.yaml#/components/quote_en"
+                  ka:
+                    $ref: "../schemas/quotes.yaml#/components/quote_ka"
+              quote_ka:
+                $ref: "../schemas/quotes.yaml#/components/quote_ka"
+              quote_en:
+                $ref: "../schemas/quotes.yaml#/components/quote_en"
+              movie:
+                type: object
+                properties:
+                  en:
+                    $ref: "../schemas/movies.yaml#/components/title_en"
+                  ka:
+                    $ref: "../schemas/movies.yaml#/components/title_ka"
+              user:
+                $ref: "../schemas/quotes.yaml#/components/user" 
+              like:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                       $ref: "../schemas/auth.yaml#/components/id"
+                    quote_id:
+                      $ref: "../schemas/auth.yaml#/components/id"
+                    user: 
+                      $ref: "../schemas/quotes.yaml#/components/user" 
+              comment:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                       $ref: "../schemas/auth.yaml#/components/id"
+                    quote_id:
+                      $ref: "../schemas/auth.yaml#/components/id"
+                    comment:
+                      type: string
+                      example: "hey man"
+                    user: 
+                      $ref: "../schemas/quotes.yaml#/components/user"
+
+  all-quotes:
+    description: OK
+    content:
+       application/json:
+          schema:
+            type: object
+            properties:
+              image:
+                $ref: "../schemas/movies.yaml#/components/image"
+              id:
+                $ref: "../schemas/auth.yaml#/components/id"
+              quote:
+                type: object
+                properties:
+                  en:
+                    $ref: "../schemas/quotes.yaml#/components/quote_en"
+                  ka:
+                    $ref: "../schemas/quotes.yaml#/components/quote_ka"
+              movie:
+                type: object
+                properties:
+                  en:
+                    $ref: "../schemas/movies.yaml#/components/title_en"
+                  ka:
+                    $ref: "../schemas/movies.yaml#/components/title_ka"
+
+    
+                      
+                      
+
+                
+                    
+                    
+                    
+               

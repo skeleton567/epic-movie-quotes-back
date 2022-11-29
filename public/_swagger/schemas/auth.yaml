@@ -1,0 +1,45 @@
+components:
+  name:
+    type: string
+    required: true
+    minLength: 3
+    maxLength: 15
+    patern: ^[a-z0-9]*$
+    example: gogi
+  
+  email:
+    type: string
+    required: true
+    patern: email
+    example: gogi@redberry.ge
+
+  password:
+    type: string
+    required: true
+    minLength: 8
+    maxLength: 15
+    example: fghfghfghfgh
+
+  password_confirmation:
+    type: string
+    required: true
+    patern: Same as password
+    example: fghfghfghfgh
+
+  token:
+    type: string
+    required: true
+  
+  id:
+    type: integer
+    example: 1
+
+  created_at:
+    type: timestamp
+    example: "2022-11-29T05:02:37.000000Z"
+
+    
+    
+  
+    
+   

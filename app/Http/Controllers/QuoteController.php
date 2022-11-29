@@ -49,7 +49,11 @@ class QuoteController extends Controller
     }
     public function update(UpdateRequest $request, Quote $quote): JsonResponse
     {
-        $attributes = $request->validated();
+        $attributes = $request->only('quote_en', 'quote_ka');
+
+        if (json_decode($request->user_id) !== auth()->id()) {
+            return response()->json($request->user_id, 401);
+        }
 
         if ($request->file('image')) {
             $attributes['image'] = $request->file('image')->store('images');

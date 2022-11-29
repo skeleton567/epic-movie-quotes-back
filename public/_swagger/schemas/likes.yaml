@@ -1,0 +1,6 @@
+components:
+  id:
+    type: integer
+    required: true
+    example: 1
+   

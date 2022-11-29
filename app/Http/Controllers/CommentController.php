@@ -31,6 +31,9 @@ class CommentController extends Controller
     }
     public function destroy(Comment $comment): JsonResponse
     {
+        if (json_decode(request()->user_id) !== auth()->id()) {
+            return response()->json(['message' => 'Not Authorized'], 401);
+        }
         event(new NotificationEvent(false, CommentResource::make($comment)));
         $comment->delete();
 

@@ -1,0 +1,181 @@
+paths:                
+  /register:
+    post:
+      tags: ["Authentification"]
+      summary: Register user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  $ref: "../schemas/auth.yaml#/components/name"
+                email:
+                  $ref: "../schemas/auth.yaml#/components/email"
+                password:
+                  $ref: "../schemas/auth.yaml#/components/password"
+                password_confirmation:
+                  $ref: "../schemas/auth.yaml#/components/password_confirmation"
+      responses:
+        "200":
+          $ref: "../common.yaml#/components/responses/200"
+        "422":
+           $ref: "../common.yaml#/components/responses/422"
+
+  /login:
+    post:
+      tags: ["Authentification"]
+      summary: Login user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  required: true
+                  minLength: 3
+                  example: gogi
+                password:
+                  $ref: "../schemas/auth.yaml#/components/password"
+                remember:
+                  type: boolean
+                  required: false
+      responses:
+        "200":
+          $ref: "../common.yaml#/components/responses/200"
+
+  /logout:
+    post:
+      tags: ["Authentification"]
+      summary: Logout user
+      security: 
+       - Auth: []
+      responses:
+        "200":
+          $ref: "../common.yaml#/components/responses/200"
+        "401":
+          $ref: "../common.yaml#/components/responses/401"
+        
+      
+  /authorized-user:
+    post:
+      tags: ["Authentification"]
+      summary: Get authorized user
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+                schema:
+                  type: object
+                  properties:
+                    id:
+                      $ref: "../schemas/auth.yaml#/components/id"
+                    name:
+                      $ref: "../schemas/auth.yaml#/components/name"
+                    email:
+                      $ref: "../schemas/auth.yaml#/components/email"
+                    email_verified_at:
+                      type: boolean
+                      example: true
+                    google_auth:
+                      type: boolean
+                      example: true
+                    profile_picture:
+                      $ref: "../schemas/movies.yaml#/components/image"
+                    created_at:
+                      $ref: "../schemas/auth.yaml#/components/created_at"
+                    updated_at:
+                      $ref: "../schemas/auth.yaml#/components/created_at" 
+        "500":
+          description: "Internal server error"
+
+  /google-login:
+    post:
+      tags: ["Authentification"]
+      summary: Login user with google
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  $ref: "../schemas/auth.yaml#/components/token"
+      responses:
+        "200":
+          $ref: "../common.yaml#/components/responses/200"
+        "422":
+           $ref: "../common.yaml#/components/responses/422"
+
+  /forgot-password:
+    post:
+      tags: ["Authentification"]
+      summary: Send email to reset password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  $ref: "../schemas/auth.yaml#/components/email"
+      responses:
+        "200":
+          $ref: "../common.yaml#/components/responses/200"
+        "422":
+           $ref: "../common.yaml#/components/responses/422"
+    
+  /reset-password:
+    post:
+      tags: ["Authentification"]
+      summary: Uptade password with new password value
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  $ref: "../schemas/auth.yaml#/components/token"
+                email:
+                  $ref: "../schemas/auth.yaml#/components/email"
+                password:
+                  $ref: "../schemas/auth.yaml#/components/password"
+                password_confirmation:
+                  $ref: "../schemas/auth.yaml#/components/password_confirmation"
+      responses:
+        "200":
+          $ref: "../common.yaml#/components/responses/200"
+        "422":
+           $ref: "../common.yaml#/components/responses/422"
+                
+  /secondary-email:
+    get:
+      parameters:
+        - $ref: "../parameters/parameters.yaml#/parameters/id"
+        - $ref: "../parameters/parameters.yaml#/parameters/hash"
+      tags: ["Authentification"]
+      summary: Verify secondary email
+      responses:
+        "200":
+          $ref: "../common.yaml#/components/responses/200"
+
+  /email:
+    get:
+      parameters:
+        - $ref: "../parameters/parameters.yaml#parameters/id"
+        - $ref: "../parameters/parameters.yaml#/parameters/hash"
+      tags: ["Authentification"]
+      summary: Verify user email
+      responses:
+        "200":
+          $ref: "../common.yaml#/components/responses/200"

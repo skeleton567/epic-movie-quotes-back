@@ -1,0 +1,157 @@
+paths:
+  /movies:
+    post:
+      tags: ["Movies"]
+      summary: Create new movie
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title_en:
+                  $ref: "../schemas/movies.yaml#/components/title_en"
+                title_ka:
+                  $ref: "../schemas/movies.yaml#/components/title_ka"
+                director_en:
+                  $ref: "../schemas/movies.yaml#/components/director_en"
+                director_ka:
+                  $ref: "../schemas/movies.yaml#/components/director_ka"
+                description_en:
+                  $ref: "../schemas/movies.yaml#/components/description_en"
+                description_ka:
+                  $ref: "../schemas/movies.yaml#/components/description_ka"
+                release_year:
+                  $ref: "../schemas/movies.yaml#/components/release_year"
+                budget:
+                  $ref: "../schemas/movies.yaml#/components/budget"
+                image:
+                  type: file
+                categories:
+                  $ref: "../schemas/movies.yaml#/components/categories"
+              required:
+                - title_en
+                - title_ka
+                - director_en
+                - director_ka
+                - description_en
+                - description_ka
+                - release_year
+                - budget
+                - image
+      security: 
+       - Auth: []
+      responses:
+        "201":
+          $ref: "../common.yaml#/components/responses/201"
+        "422":
+           $ref: "../common.yaml#/components/responses/422"  
+        "401":
+          $ref: "../common.yaml#/components/responses/401"   
+
+    get:
+      tags: ["Movies"]
+      summary: Get all movies of authorized user
+      security: 
+       - Auth: []
+      responses:
+        "200":
+          $ref: "../responses/movies.yaml#/components/200"
+        "401":
+          $ref: "../common.yaml#/components/responses/401"
+
+  /movies-all:
+      get:
+        tags: ["Movies"]
+        summary: Get all movies
+        security: 
+        - Auth: []
+        responses:
+          "200":
+            $ref: "../responses/movies.yaml#/components/200"
+          "401":
+            $ref: "../common.yaml#/components/responses/401"
+         
+  /movies-crud:       
+    get:
+      parameters:
+        - $ref: "../parameters/parameters.yaml#/parameters/movie_id"
+      tags: ["Movies"]
+      summary: Get specific movie
+      security: 
+      - Auth: []
+      responses:
+        "200":
+          $ref: "../responses/movies.yaml#/components/200"
+        "401":
+          $ref: "../common.yaml#/components/responses/401"
+    
+    delete:
+      parameters:
+        - $ref: "../parameters/parameters.yaml#/parameters/movie_id"
+      tags: ["Movies"]
+      summary: Delete specific movie
+      security: 
+      - Auth: []
+      responses:
+        "200":
+          $ref: "../common.yaml#/components/responses/200"
+        "401":
+          $ref: "../common.yaml#/components/responses/401"
+
+    post:
+      parameters:
+        - $ref: "../parameters/parameters.yaml#/parameters/movie_id"
+      tags: ["Movies"]
+      summary: Update specific movie
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title_en:
+                  $ref: "../schemas/movies.yaml#/components/title_en"
+                title_ka:
+                  $ref: "../schemas/movies.yaml#/components/title_ka"
+                director_en:
+                  $ref: "../schemas/movies.yaml#/components/director_en"
+                director_ka:
+                  $ref: "../schemas/movies.yaml#/components/director_ka"
+                description_en:
+                  $ref: "../schemas/movies.yaml#/components/description_en"
+                description_ka:
+                  $ref: "../schemas/movies.yaml#/components/description_ka"
+                release_year:
+                  $ref: "../schemas/movies.yaml#/components/release_year"
+                budget:
+                  $ref: "../schemas/movies.yaml#/components/budget"
+                image:
+                  type: file
+                _method:
+                  type: string
+                  default: PATCH
+                categories:
+                  $ref: "../schemas/movies.yaml#/components/categories"
+              required:
+                - title_en
+                - title_ka
+                - director_en
+                - director_ka
+                - description_en
+                - description_ka
+                - release_year
+                - budget
+                - _method
+      security: 
+      - Auth: []
+      responses:
+        "201":
+          $ref: "../common.yaml#/components/responses/201"
+        "422":
+           $ref: "../common.yaml#/components/responses/422"  
+        "401":
+          $ref: "../common.yaml#/components/responses/401"
+  

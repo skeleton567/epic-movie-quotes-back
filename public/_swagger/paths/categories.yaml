@@ -1,0 +1,19 @@
+paths:
+  /categories:
+    get:
+      tags: ["Categories"]
+      summary: Get all categories
+      security: 
+      - Auth: []
+      responses:
+        "200":
+          description: Categories fetched succesfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  categories:
+                    $ref: "../schemas/movies.yaml#/components/categories"
+                  
+  

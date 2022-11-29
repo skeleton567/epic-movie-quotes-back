@@ -16,6 +16,7 @@ class UpdateRequest extends FormRequest
         return [
             'quote_en' => 'required|regex:/^[a-zA-Z0-9\s]+$/',
             'quote_ka' => 'required|regex:/^[ა-ჰ.,!?\s]*$/',
+            'user_id' => 'required',
         ];
     }
 }

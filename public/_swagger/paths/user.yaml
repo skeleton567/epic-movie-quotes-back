@@ -1,0 +1,180 @@
+paths:
+  /name:
+    patch:
+      tags: ["User"]
+      summary: Edit user name
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  $ref: "../schemas/auth.yaml#/components/name"
+      security: 
+      - Auth: []
+      responses:
+        "200":
+          $ref: "../common.yaml#/components/responses/200"
+        "401":
+          $ref: "../common.yaml#/components/responses/401"
+        "422":
+          $ref: "../common.yaml#/components/responses/422" 
+               
+  /password:
+    patch:
+      tags: ["User"]
+      summary: Edit password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  $ref: "../schemas/auth.yaml#/components/password"
+                password_confirmation:
+                  $ref: "../schemas/auth.yaml#/components/password_confirmation"
+      security: 
+      - Auth: []
+      responses:
+        "200":
+          $ref: "../common.yaml#/components/responses/200"
+        "401":
+          $ref: "../common.yaml#/components/responses/401"
+        "422":
+          $ref: "../common.yaml#/components/responses/422"
+               
+  /add-email:
+    post:
+      tags: ["User"]
+      summary: Add another email
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  $ref: "../schemas/auth.yaml#/components/email"
+                user_id:
+                  $ref: "../schemas/auth.yaml#/components/id"
+      security: 
+      - Auth: []
+      responses:
+        "200":
+          $ref: "../common.yaml#/components/responses/200"
+        "401":
+          $ref: "../common.yaml#/components/responses/401"
+        "422":
+          $ref: "../common.yaml#/components/responses/422"
+      
+  /secondary-email:
+    get:
+      tags: ["User"]
+      summary: Get secondary emails of auth user
+      security: 
+      - Auth: []
+      responses:
+        "200":
+          description: Secondary emails fetched succesfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    $ref: "../schemas/auth.yaml#/components/id"
+                  name:
+                    $ref: "../schemas/auth.yaml#/components/name"
+                  email:
+                    $ref: "../schemas/auth.yaml#/components/email"
+                  secondary-emails:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          $ref: "../schemas/auth.yaml#/components/id"
+                        email:
+                          $ref: "../schemas/auth.yaml#/components/email"
+                        email_verified_at:
+                          $ref: "../schemas/auth.yaml#/components/created_at"   
+               
+  /make-primary:
+    post:
+      tags: ["User"]
+      summary: Make email primary
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                 $ref: "../schemas/auth.yaml#/components/email"
+                verified:
+                  $ref: "../schemas/auth.yaml#/components/created_at"
+      security: 
+      - Auth: []
+      responses:
+        "200":
+          $ref: "../common.yaml#/components/responses/200"
+        "401":
+          $ref: "../common.yaml#/components/responses/401"
+        "422":
+          $ref: "../common.yaml#/components/responses/422"
+                
+  /email:
+    delete:
+      tags: ["User"]
+      summary: Delete secondary email
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  $ref: "../schemas/auth.yaml#/components/id"
+      security: 
+      - Auth: []
+      responses:
+        "200":
+          $ref: "../common.yaml#/components/responses/200"
+        "401":
+          $ref: "../common.yaml#/components/responses/401"
+        "422":
+          $ref: "../common.yaml#/components/responses/422"
+                
+  /profile-image:
+    post:
+      tags: ["User"]
+      summary: Chanfe profile image 
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  required: true
+                  type: file
+              required:
+              - image
+      security: 
+      - Auth: []
+      responses:
+        "201":
+          $ref: "../common.yaml#/components/responses/201"
+        "401":
+          $ref: "../common.yaml#/components/responses/401"
+        "422":
+          $ref: "../common.yaml#/components/responses/422"
+  

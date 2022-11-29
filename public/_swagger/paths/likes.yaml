@@ -1,0 +1,45 @@
+paths:
+  /likes:
+    post:
+      tags: ["Like"]
+      summary: Like post and send notification to author
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  $ref: "../schemas/likes.yaml#/components/id"
+                quote_id:
+                  $ref: "../schemas/likes.yaml#/components/id"
+                user_to_notify:
+                  $ref: "../schemas/likes.yaml#/components/id"
+      security: 
+      - Auth: []
+      responses:
+        "201":
+          $ref: "../common.yaml#/components/responses/201"
+        "422":
+           $ref: "../common.yaml#/components/responses/422"  
+        "401":
+          $ref: "../common.yaml#/components/responses/401"
+    
+  /likes-delete:
+    delete:
+      parameters:
+        - in: path
+          name: like
+          schema:
+            type: integer
+          required: true
+      tags: ["Like"]
+      summary: Delete like
+      security: 
+      - Auth: []
+      responses:
+        "200":
+          $ref: "../common.yaml#/components/responses/200"
+        "401":
+          $ref: "../common.yaml#/components/responses/401"

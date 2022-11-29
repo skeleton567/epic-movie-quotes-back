@@ -19,7 +19,7 @@ class QuotePostResource extends JsonResource
             'quote' => $this->getTranslations('quote'),
             'quote_ka' =>$this->getTranslation('quote', 'ka'),
             'quote_en' =>$this->getTranslation('quote', 'en'),
-            'movie' => MovieResource::make($this->movie),
+            'movie' => MovieResource::make($this->movie)->getTranslations('title'),
             'image' => $this->image,
             'user' => UserResource::make($this->user),
             'like' => LikeResource::collection($this->likes),

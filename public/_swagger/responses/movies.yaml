@@ -1,0 +1,39 @@
+components:
+  "200":
+    description: OK
+    content:
+       application/json:
+          schema:
+            type: object
+            properties:
+              title:
+                type: object
+                properties:
+                  en:
+                    $ref: "../schemas/movies.yaml#/components/title_en"
+                  ka:
+                    $ref: "../schemas/movies.yaml#/components/title_ka"
+              director:
+                type: object
+                properties:
+                  en:
+                    $ref: "../schemas/movies.yaml#/components/director_en"
+                  ka:
+                    $ref: "../schemas/movies.yaml#/components/director_ka"
+              description_en:
+                type: object
+                properties:
+                  en:
+                    $ref: "../schemas/movies.yaml#/components/description_en"
+                  ka:
+                    $ref: "../schemas/movies.yaml#/components/description_ka"
+              release_year:
+                $ref: "../schemas/movies.yaml#/components/release_year"
+              budget:
+                $ref: "../schemas/movies.yaml#/components/budget"
+              image:
+                $ref: "../schemas/movies.yaml#/components/image"
+              categories:
+                $ref: "../schemas/movies.yaml#/components/categories" 
+    
+  

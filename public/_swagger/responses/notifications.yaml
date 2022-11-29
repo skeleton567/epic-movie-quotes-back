@@ -1,0 +1,30 @@
+components:
+  "200":
+    description: OK
+    content:
+       application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                $ref: "../schemas/auth.yaml#/components/id"
+              type:
+                type: string
+                patern: like or comment
+                example: like
+              seen:
+                type: boolean
+                example: true
+              user:
+                $ref: "../schemas/quotes.yaml#/components/user" 
+              user_to_notify:
+                $ref: "../schemas/quotes.yaml#/components/user" 
+              created_at:
+                $ref: "../schemas/auth.yaml#/components/created_at"
+                
+              
+              
+
+
+             
+  

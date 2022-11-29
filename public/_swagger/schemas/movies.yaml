@@ -1,0 +1,65 @@
+components:
+  title_en:
+    type: string
+    patern: only english letters and spaces
+    default: Lord of the rings
+
+  title_ka:
+    type: string
+    patern: only georgian letters and spaces
+    default: ბეჭდების მბრძანებელი
+
+  director_en:
+    type: string
+    patern: only english letters and spaces
+    default: Peter jackson
+
+  director_ka:
+    type: string
+    patern: only georgian letters and spaces
+    default: პიტერ ჯექსონი
+
+  description_en:
+    type: string
+    paterm: only english letters and spaces
+    default: The Lord of the Rings is a series of three epic fantasy adventure films directed by Peter Jackson
+
+  description_ka:
+    type: string
+    patern: only georgian letters and spaces
+    default: ბეჭდების მბრძანებელი არის სამი ეპიკური ფანტასტიკური სათავგადასავლო ფილმის სერია, რომლის რეჟისორია პიტერ ჯექსონი
+
+  release_year:
+    type: intiger
+    default: 2001
+
+  budget:
+    type: intiger
+    default: 281000000
+
+  categories:
+    type: array
+    items:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+            default: 1
+          category:
+            type: object
+            properties:
+              ka:
+                type: string
+                default: მიუზიკლი
+              en:
+                type: string
+                default: Musical
+
+  image:
+    type: string
+    example: images/rose.jpg
+    
+
+   

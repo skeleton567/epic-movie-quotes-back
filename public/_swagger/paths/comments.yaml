@@ -1,0 +1,58 @@
+paths:
+  /comment:
+    post:
+      tags: ["Comment"]
+      summary: Comment post and send notification to author
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  $ref: "../schemas/likes.yaml#/components/id"
+                quote_id:
+                  $ref: "../schemas/likes.yaml#/components/id"
+                user_to_notify:
+                  $ref: "../schemas/likes.yaml#/components/id"
+                comment:
+                  type: string
+                  required: true
+                  example: 'Hey good job'
+      security: 
+      - Auth: []
+      responses:
+        "201":
+          $ref: "../common.yaml#/components/responses/201"
+        "422":
+           $ref: "../common.yaml#/components/responses/422"  
+        "401":
+          $ref: "../common.yaml#/components/responses/401"
+               
+  /comment-delete:
+    delete:
+      parameters:
+        - in: path
+          name: comment
+          schema:
+            type: integer
+          required: true
+      tags: ["Comment"]
+      summary: Delete comment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  $ref: "../schemas/likes.yaml#/components/id"
+      security: 
+      - Auth: []
+      responses:
+        "200":
+          $ref: "../common.yaml#/components/responses/200"
+        "401":
+          $ref: "../common.yaml#/components/responses/401"

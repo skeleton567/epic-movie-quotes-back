@@ -10,21 +10,25 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class NotificationEvent implements ShouldBroadcast
+class FeedbackEvent implements ShouldBroadcast
 {
     use Dispatchable;
     use InteractsWithSockets;
     use SerializesModels;
 
-    public $notification;
+    public $data;
+    public $response;
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($notification)
+    public function __construct($data, $response)
     {
-        $this->notification = $notification;
+        //
+        $this->data = $data;
+        $this->response = $response;
     }
 
     /**
@@ -34,10 +38,10 @@ class NotificationEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('notifications.'. $this->notification->user_to_notify);
+        return new Channel('feedbacks');
     }
     public function broadcastAs()
     {
-        return 'notification';
+        return 'feedback';
     }
 }

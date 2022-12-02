@@ -47,18 +47,20 @@ class MovieController extends Controller
 
         return response()->json($movie, 200);
     }
-    public function index(): JsonResponse
-    {
-        $movie = MovieResource::collection(Movie::all());
-
-        return response()->json($movie, 200);
-    }
     public function selectMovie(Movie $movie): JsonResponse
     {
+        if ($movie->user_id !== auth()->id()) {
+            return response()->json(['message' => 'Not Authorized'], 401);
+        }
+
         return response()->json(MovieResource::make($movie), 200);
     }
     public function update(UpdateRequest $request, Movie $movie): JsonResponse
     {
+        if ($movie->user_id !== auth()->id()) {
+            return response()->json(['message' => 'Not Authorized'], 401);
+        }
+
         $attributes = $request->validated();
 
         if ($request->file('image')) {
@@ -84,6 +86,10 @@ class MovieController extends Controller
     }
     public function destroy(Movie $movie): JsonResponse
     {
+        if ($movie->user_id !== auth()->id()) {
+            return response()->json(['message' => 'Not Authorized'], 401);
+        }
+
         $movie->delete();
         return response()->json(['message' => 'Movie deleted succesfully'], 200);
     }

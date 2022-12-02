@@ -60,18 +60,6 @@ paths:
           $ref: "../responses/movies.yaml#/components/200"
         "401":
           $ref: "../common.yaml#/components/responses/401"
-
-  /movies-all:
-      get:
-        tags: ["Movies"]
-        summary: Get all movies
-        security: 
-        - Auth: []
-        responses:
-          "200":
-            $ref: "../responses/movies.yaml#/components/200"
-          "401":
-            $ref: "../common.yaml#/components/responses/401"
          
   /movies-crud:       
     get:

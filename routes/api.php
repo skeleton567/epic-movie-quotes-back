@@ -30,7 +30,6 @@ Route::middleware(["jwt.auth"])->group(function () {
     Route::controller(MovieController::class)->group(function () {
         Route::post('movies', 'store')->name('movie.store');
         Route::get('movies', 'show')->name('movie.show');
-        Route::get('movies-all', 'index')->name('movie.index');
         Route::get('movies/{movie}', 'selectMovie')->name('movie.select');
         Route::delete('movies/{movie}', 'destroy')->name('movie.destroy');
         Route::patch('movies/{movie}', 'update')->name('movie.update');
@@ -71,8 +70,6 @@ Route::controller(AuthController::class)->group(function () {
     Route::get('/secondary-email/verify/{id}/{hash}', 'secondaryVerify')->name('secondary.verify');
     Route::post('authorized-user', 'user')->name('auth.user');
 });
-
-Route::get('quote', [QuoteController::class, 'index'])->name('view.quote');
 Route::controller(PasswordResetController::class)->group(function () {
     Route::post('/forgot-password', 'forgotPassword')->name('password.email');
     Route::post('/reset-password', 'passwordUpdate')->name('password.reset');

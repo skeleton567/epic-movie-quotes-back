@@ -33,6 +33,8 @@ components:
                 $ref: "../schemas/movies.yaml#/components/budget"
               image:
                 $ref: "../schemas/movies.yaml#/components/image"
+              user_id:
+                $ref: "../schemas/auth.yaml#/components/id"
               categories:
                 $ref: "../schemas/movies.yaml#/components/categories" 
     

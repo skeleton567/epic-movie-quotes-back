@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\NotificationEvent;
+use App\Events\FeedbackEvent;
 use App\Http\Requests\Likes\DestroyRequest;
 use App\Http\Requests\Likes\StoreRequest;
 use App\Http\Resources\LikeResource;
@@ -26,20 +27,23 @@ class LikeController extends Controller
                 "quote_id" => $request->quote_id
             ]));
 
-            $notification = Notification::create([
-                'user_id' => auth()->id(),
-                'user_to_notify' => $request->user_to_notify,
-                'type' => 'like',
-                'seen_by_user' => false
-            ]);
-            event(new NotificationEvent(NotificationResource::make($notification), $like));
+            if ($request->user_to_notify !== auth()->id()) {
+                $notification = Notification::create([
+                    'user_id' => auth()->id(),
+                    'user_to_notify' => $request->user_to_notify,
+                    'type' => 'like',
+                    'seen_by_user' => false
+                ]);
+                event(new NotificationEvent(NotificationResource::make($notification)));
+            }
+            event(new FeedbackEvent($like, true));
         });
 
         return response()->json(['message' =>'Post liked successfuly'], 201);
     }
     public function destroy(Like $like): JsonResponse
     {
-        event(new NotificationEvent(false, LikeResource::make($like)));
+        event(new FeedbackEvent(LikeResource::make($like), false));
         $like->delete();
 
         return response()->json(['message' => 'Successfully unliked'], 200);

@@ -135,14 +135,3 @@ paths:
             $ref: "../common.yaml#/components/responses/422"  
           "401":
             $ref: "../common.yaml#/components/responses/401"
-
-      get:
-        tags: ["Quote"]
-        summary: Get all quotes
-        responses:
-          "200":
-            $ref: "../responses/quotes.yaml#/components/all-quotes"
-          "422":
-            $ref: "../common.yaml#/components/responses/422"  
-          "401":
-            $ref: "../common.yaml#/components/responses/401"

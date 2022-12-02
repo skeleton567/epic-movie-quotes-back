@@ -45,15 +45,19 @@ class QuoteController extends Controller
     }
     public function show(Quote $quote): JsonResponse
     {
+        if ($quote->user_id !== auth()->id()) {
+            return response()->json(['message' => 'Not Authorized'], 401);
+        }
+
         return response()->json(QuotePostResource::make($quote), 200);
     }
     public function update(UpdateRequest $request, Quote $quote): JsonResponse
     {
-        $attributes = $request->only('quote_en', 'quote_ka');
-
-        if (json_decode($request->user_id) !== auth()->id()) {
-            return response()->json($request->user_id, 401);
+        if ($quote->user_id !== auth()->id()) {
+            return response()->json(['message' => 'Not Authorized'], 401);
         }
+
+        $attributes = $request->only('quote_en', 'quote_ka');
 
         if ($request->file('image')) {
             $attributes['image'] = $request->file('image')->store('images');
@@ -68,6 +72,10 @@ class QuoteController extends Controller
     }
     public function destroy(Quote $quote): JsonResponse
     {
+        if ($quote->user_id !== auth()->id()) {
+            return response()->json(['message' => 'Not Authorized'], 401);
+        }
+
         $quote->delete();
         return response()->json(['message' => 'Quote deleted succesfully'], 200);
     }

@@ -10,6 +10,10 @@ components:
                 $ref: "../schemas/auth.yaml#/components/id"
               image:
                 $ref: "../schemas/movies.yaml#/components/image"
+              year:
+                $ref: "../schemas/movies.yaml#/components/release_year"
+              movie_id:
+                $ref: "../schemas/auth.yaml#/components/id"
               quote:
                 type: object
                 properties:
@@ -55,32 +59,6 @@ components:
                       example: "hey man"
                     user: 
                       $ref: "../schemas/quotes.yaml#/components/user"
-
-  all-quotes:
-    description: OK
-    content:
-       application/json:
-          schema:
-            type: object
-            properties:
-              image:
-                $ref: "../schemas/movies.yaml#/components/image"
-              id:
-                $ref: "../schemas/auth.yaml#/components/id"
-              quote:
-                type: object
-                properties:
-                  en:
-                    $ref: "../schemas/quotes.yaml#/components/quote_en"
-                  ka:
-                    $ref: "../schemas/quotes.yaml#/components/quote_ka"
-              movie:
-                type: object
-                properties:
-                  en:
-                    $ref: "../schemas/movies.yaml#/components/title_en"
-                  ka:
-                    $ref: "../schemas/movies.yaml#/components/title_ka"
 
     
                       

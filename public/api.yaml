@@ -48,10 +48,7 @@ paths:
     
   /movies:
     $ref: "./_swagger/paths/movies.yaml#/paths/~1movies"
-       
-  /movies-all:
-    $ref: "./_swagger/paths/movies.yaml#/paths/~1movies-all"
-    
+           
   /movies/{movie}:
     $ref: "./_swagger/paths/movies.yaml#/paths/~1movies-crud"
   

@@ -4,6 +4,7 @@
 
 namespace App\Services\Auth;
 
+use App\Models\SecondaryEmail;
 use App\Models\User;
 use Carbon\Carbon;
 use Exception;
@@ -93,6 +94,13 @@ class JwtGuard implements Guard
             $user = User::firstWhere('name', $credentials['name']);
         }
 
+        if(!$user) {
+            $email = SecondaryEmail::firstWhere('email', $credentials['email']);
+            if(! is_null($email) && $email->hasVerifiedEmail()) {
+                $user = User::find($email->user_id);
+            }
+        }
+
         if (! is_null($user) && $this->provider->validateCredentials($user, $credentials)) {
             $this->setUser($user);
 
@@ -159,7 +167,7 @@ class JwtGuard implements Guard
         if (!$this->validate($credentials)) {
             return null;
         }
-        $jwt =  $this->generateToken($time, $this->id());
+        $jwt = $this->generateToken($time, $this->id());
         return cookie("access_token", $jwt, $time, '/', config('auth.front_end_top_level_domain'), true, true, false, 'Strict');
     }
 

@@ -15,6 +15,7 @@ class VerifyEmail extends VerifyEmailBase
 {
     public function toMail($notifiable): MailMessage
     {
+        $notifiable->secondary_email = $notifiable->email;
         $url = $this->verificationUrl($notifiable);
         return (new MailMessage())
             ->subject('Verify Email')

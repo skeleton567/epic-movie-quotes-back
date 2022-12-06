@@ -46,6 +46,14 @@
         type: string
         minimum: 1
         default: 1
+
+    email:
+      name: email
+      in: path
+      description: Email adress
+      required: true
+      schema:
+        type: string
       
 
     

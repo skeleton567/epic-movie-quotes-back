@@ -69,7 +69,6 @@ class AuthController extends Controller
                 event(new Verified($email));
             }
          
-            return response()->json($request, 200);
         } else {
             $user = User::find($request->route('id'));
 
@@ -80,10 +79,8 @@ class AuthController extends Controller
             if ($user->markEmailAsVerified()) {
                 event(new Verified($user));
             }
-    
-            return response()->json(['message' => 'Successfully verified'], 200);
         }
-    
+        return response()->json(['message' => 'Successfully verified'], 200);
     }
 
     public function user(): JsonResponse

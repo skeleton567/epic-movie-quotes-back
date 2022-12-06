@@ -16,6 +16,8 @@ class VerifySecondaryEmail extends VerifyEmailBase
 {
     public function toMail($notifiable): MailMessage
     {
+        $notifiable->secondary_email = $notifiable->email;
+        $notifiable->email = User::find($notifiable->user_id)->email;
         $url = $this->verificationUrl($notifiable);
         $name = User::find($notifiable->user_id)->name;
         return (new MailMessage())

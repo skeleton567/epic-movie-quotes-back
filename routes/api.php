@@ -66,8 +66,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('register', 'register')->name('register');
     Route::post('login', 'login')->name('login');
     Route::post('google-login', 'googleLogin')->name('google.login');
-    Route::get('/email/verify/{id}/{hash}', 'verify')->name('verification.verify');
-    Route::get('/secondary-email/verify/{id}/{hash}', 'secondaryVerify')->name('secondary.verify');
+    Route::get('/email/verify/{id}/{hash}/{email}', 'verify')->name('verification.verify');
     Route::post('authorized-user', 'user')->name('auth.user');
 });
 Route::controller(PasswordResetController::class)->group(function () {

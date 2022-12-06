@@ -56,30 +56,30 @@ class AuthController extends Controller
 
     public function verify(Request $request): JsonResponse
     {
-        $user = User::find($request->route('id'));
 
-        if (!hash_equals((string) $request->route('hash'), sha1($user->getEmailForVerification()))) {
-            throw new AuthorizationException();
+        $email = SecondaryEmail::where("email", $request->route('email'))->first();
+        if ($email) {
+            $user = User::find($email->user_id);
+
+            if (!hash_equals((string) $request->route('hash'), sha1($user->getEmailForVerification()))) {
+                throw new AuthorizationException();
+            }
+    
+            if ($email->markEmailAsVerified()) {
+                event(new Verified($email));
+            }
+         
+        } else {
+            $user = User::find($request->route('id'));
+
+            if (!hash_equals((string) $request->route('hash'), sha1($user->getEmailForVerification()))) {
+                throw new AuthorizationException();
+            }
+    
+            if ($user->markEmailAsVerified()) {
+                event(new Verified($user));
+            }
         }
-
-        if ($user->markEmailAsVerified()) {
-            event(new Verified($user));
-        }
-
-        return response()->json(['message' => 'Successfully verified'], 200);
-    }
-    public function secondaryVerify(Request $request): JsonResponse
-    {
-        $user = SecondaryEmail::find($request->route('id'));
-
-        if (!hash_equals((string) $request->route('hash'), sha1($user->getEmailForVerification()))) {
-            throw new AuthorizationException();
-        }
-
-        if ($user->markEmailAsVerified()) {
-            event(new Verified($user));
-        }
-
         return response()->json(['message' => 'Successfully verified'], 200);
     }
 

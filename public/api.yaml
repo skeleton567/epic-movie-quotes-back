@@ -40,11 +40,8 @@ paths:
   /reset-password:
     $ref: "./_swagger/paths/auth.yaml#/paths/~1reset-password"
 
-  /email/verify/{id}/{hash}:
+  /email/verify/{id}/{hash}/{email}:
     $ref: "./_swagger/paths/auth.yaml#/paths/~1email"
-
-  /secondary-email/verify/{id}/{hash}:
-    $ref: "./_swagger/paths/auth.yaml#/paths/~1secondary-email"
     
   /movies:
     $ref: "./_swagger/paths/movies.yaml#/paths/~1movies"

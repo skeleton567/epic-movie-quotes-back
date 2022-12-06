@@ -157,23 +157,13 @@ paths:
           $ref: "../common.yaml#/components/responses/200"
         "422":
            $ref: "../common.yaml#/components/responses/422"
-                
-  /secondary-email:
-    get:
-      parameters:
-        - $ref: "../parameters/parameters.yaml#/parameters/id"
-        - $ref: "../parameters/parameters.yaml#/parameters/hash"
-      tags: ["Authentification"]
-      summary: Verify secondary email
-      responses:
-        "200":
-          $ref: "../common.yaml#/components/responses/200"
 
   /email:
     get:
       parameters:
         - $ref: "../parameters/parameters.yaml#parameters/id"
         - $ref: "../parameters/parameters.yaml#/parameters/hash"
+        - $ref: "../parameters/parameters.yaml#/parameters/email"
       tags: ["Authentification"]
       summary: Verify user email
       responses:

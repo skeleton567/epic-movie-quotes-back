@@ -30,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        VerifyEmail::createUrlUsing(function ($notifiable) {
+        VerifySecondaryEmail::createUrlUsing(function ($notifiable) {
             $frontendUrl = config('url.frontend'). '/success';
 
             $verifyUrl = URL::temporarySignedRoute(
@@ -39,21 +39,7 @@ class AppServiceProvider extends ServiceProvider
                 [
                     'id' => $notifiable->getKey(),
                     'hash' => sha1($notifiable->getEmailForVerification()),
-                ]
-            );
-
-            return $frontendUrl . '?verify_url=' . urlencode($verifyUrl);
-        });
-
-        VerifySecondaryEmail::createUrlUsing(function ($notifiable) {
-            $frontendUrl = config('url.frontend'). '/success';
-
-            $verifyUrl = URL::temporarySignedRoute(
-                'secondary.verify',
-                Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
-                [
-                    'id' => $notifiable->getKey(),
-                    'hash' => sha1($notifiable->getEmailForVerification()),
+                    'email' => $notifiable->secondary_email
                 ]
             );
 

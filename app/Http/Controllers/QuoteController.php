@@ -7,6 +7,7 @@ use App\Http\Requests\Quote\UpdateRequest;
 use App\Http\Requests\Quote\StoreRequest;
 use App\Http\Resources\QuotePostResource;
 use App\Http\Resources\QuoteResource;
+use App\Models\Movie;
 use App\Models\Quote;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -30,6 +31,11 @@ class QuoteController extends Controller
     }
     public function store(StoreRequest $request): JsonResponse
     {
+        $movie = Movie::find($request->validated()['movie_id']);
+        if ($movie->user_id !== auth()->id()) {
+            return response()->json(['message' => 'Not Authorized'], 401);
+        }
+
         $quote = Quote::create([
             'movie_id' => $request->validated()['movie_id'],
             'image' =>  $request->file('image')->store('images'),

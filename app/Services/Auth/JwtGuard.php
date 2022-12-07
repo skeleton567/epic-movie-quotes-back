@@ -94,7 +94,7 @@ class JwtGuard implements Guard
             $user = User::firstWhere('name', $credentials['name']);
         }
 
-        if(!$user) {
+        if(!$user && array_key_exists('email', $credentials)) {
             $email = SecondaryEmail::firstWhere('email', $credentials['email']);
             if(! is_null($email) && $email->hasVerifiedEmail()) {
                 $user = User::find($email->user_id);

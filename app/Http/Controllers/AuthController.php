@@ -46,7 +46,7 @@ class AuthController extends Controller
         if (User::where('email', $googleUser->email)->exists()) {
             $user = User::firstWhere('email', $googleUser->email);
         } else {
-            $user = User::create(['email' => $googleUser->email, 'name'=> $googleUser->name]);
+            $user = User::create(['email' => $googleUser->email]);
             $user->google_auth = true;
             $user->markEmailAsVerified();
         }
